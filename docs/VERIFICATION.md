@@ -5,10 +5,10 @@ September 14, 2026, Central Time. This is a bounded portfolio demonstration, not
 | Requirement | Method | Evidence / scope |
 |---|---|---|
 | Original authenticated deployment | HTTP/API | Netlify app and cloud health respond successfully; provider and authentication configured. |
-| Actual agent execution | Production UI plus API reconciliation | Featured launch-planning mission completed: planner, two independent workers, synthesizer and verifier; 7 saved artifacts; 49,706 reported tokens; zero uncertain usage. Captured in `public/capture/mission.json`. Its proposed acceptance tests were not executed. |
-| Bounded token policy | Production UI | Mission stopped at its original 60,000-token ceiling; continuation to a 100,000 ceiling retained completed work. Final actual usage was 54,685 tokens. Ceiling is admission capacity, not actual usage. |
-| Operator controls | Isolated Playwright Chrome | Login, pause/resume, cancellation-dialog dismissal, budget continuation, five mission tabs, artifact download, logout revocation and login again exercised. |
-| Artifact provenance | Production API and browser | Seven artifact response sizes and SHA-256 values reconciled; a real browser download succeeded. Public copies preserve those bytes. |
+| Actual agent execution | Authenticated production API and backend | Featured launch-planning mission completed: planner, two independent workers, synthesizer and verifier; 7 saved artifacts; 49,706 reported tokens; zero uncertain usage. Captured in `lib/capture/mission.json`. Its proposed acceptance tests were not executed. |
+| Bounded token policy (separate arithmetic run) | Production UI | The earlier arithmetic mission stopped at its original 60,000-token ceiling; continuation to a 100,000 ceiling retained completed work. Final actual usage was 54,685 tokens. Ceiling is admission capacity, not actual usage. |
+| Operator controls (separate arithmetic run) | Isolated Playwright Chrome | Login, pause/resume, cancellation-dialog dismissal, budget continuation, five mission tabs, artifact download, logout revocation and login again exercised. |
+| Featured artifact provenance | Authenticated production API, then public browser walkthrough | Seven artifact response sizes and SHA-256 values reconciled; a real browser download succeeded. Public copies preserve those bytes. |
 | Original frontend backend unit tests | Local | 55 Python runtime tests (including eight reservation-settlement regressions); 14 proxy/security tests passed in the published source checkout. |
 | Public source build and types | Local | TypeScript and Vite build pass. |
 | Dependency audit | npm | Production dependency audit reports zero known vulnerabilities at check time. |

@@ -48,7 +48,7 @@ npm ci
 npm run dev
 ```
 
-Open the Vite URL. By default the UI reads only `public/capture/mission.json` and local captured files. Refreshing, changing tabs and downloading an artifact do not invoke an AI provider. `npm run build` creates `dist-netlify/`; the included Netlify configuration hosts this static walkthrough. No live API function is deployed by this default configuration.
+Open the Vite URL. By default the UI reads only `lib/capture/mission.json` and local captured files. Refreshing, changing tabs and downloading an artifact do not invoke an AI provider. `npm run build` creates `dist-netlify/`; the included Netlify configuration hosts this static walkthrough. No live API function is deployed by this default configuration.
 
 ## Run your own authenticated runtime
 
@@ -87,6 +87,7 @@ See [verification evidence](docs/VERIFICATION.md) for dated public deployment an
 - `runtime/backend/swarm/engine.py`, `store.py`: orchestration, durable state, scheduling and accounting.
 - `runtime/backend/swarm/provider.py`, `tool_registry.py`: provider protocol and constrained tools.
 - `runtime/backend/swarm/observability.py`: optional tracing hooks.
-- `public/capture/`: sanitized synthetic mission response and actual saved artifacts.
+- `lib/capture/`: sanitized synthetic mission response and captured tool metadata.
+- `public/capture/artifacts/`: actual saved artifact files.
 
 The orbit artwork was AI-generated for this project; it is a visual accent, not a scientific diagram. Interface screenshots and captured mission outputs are from the actual application. This is independent work, not employer code or a customer deployment.

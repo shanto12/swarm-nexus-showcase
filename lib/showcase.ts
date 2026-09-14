@@ -1,5 +1,5 @@
-import capture from '../public/capture/mission.json';
-import tools from '../public/capture/tools.json';
+import capture from './capture/mission.json';
+import tools from './capture/tools.json';
 export const SHOWCASE = import.meta.env.VITE_SHOWCASE !== 'false';
 export const capturedMissionId = capture.task.id;
 export const capturedTitle = 'AI support assistant: launch readiness';
