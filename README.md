@@ -1,93 +1,68 @@
 # Swarm Nexus
 
-**A persistent multi-agent workspace, built by Shanto Mathew.**
+**Durable multi-agent orchestration with inspectable work, bounded resources and saved deliverables.** Built by Shanto Mathew.
 
-Turn an outcome into a dependency graph, run bounded workers, preserve their artifacts and handoffs, and independently verify the result. The React interface makes the plan, token policy, activity ledger and deliverables inspectable.
+[Explore the public walkthrough](https://shanto-swarm-nexus-showcase.netlify.app/) · [Read the implementation](runtime/backend/swarm/engine.py) · [Verification](docs/VERIFICATION.md)
 
-- [Public interactive walkthrough](https://shanto-swarm-nexus-showcase.netlify.app/) — a clearly labelled captured execution, with real saved artifacts and no login required.
-- [Authenticated live workspace](https://swarm-nexus-shanto.netlify.app/) — owner access is required to launch paid cloud work.
-- [Shanto's portfolio](https://shantomathew.com/)
+![Actual completed launch-planning mission](docs/screenshots/completed-mission.png)
 
-This repository is an intentionally sanitized publication of personal project source. It contains the frontend, Python runtime and tests, with deployment endpoints parameterized. It contains no production credentials, private mission database, customer data, infrastructure inventory or original repository history.
+*Actual application screenshot. The public walkthrough is a read-only capture of a completed cloud execution; launching new missions requires access to the authenticated runtime.*
 
-## Why this project
+## Review it in two minutes
 
-A useful agent system needs more than parallel prompts. Work has dependencies, tools fail, calls consume reservations, and an interrupted browser must not lose a mission. Nexus connects durable orchestration with a result-first interface so an operator can inspect what happened and decide when to continue.
+Open the walkthrough, inspect **Swarm** to see the assignments, review **Resources** and **Activity**, then download `launch-plan.md` from **Files**. No login or provider credentials are required for this public review.
 
-The featured mission develops a launch-readiness plan for a **fictional AI support assistant**. Two workers analyze reliability/recovery and security/privacy/approval boundaries, a synthesizer produces a prioritized checklist, and the runtime's independent verifier checks the deliverables. All five assignments completed through actual cloud provider calls, using 49,706 reported tokens with zero uncertain usage. The seven downloaded artifacts include the launch plan, worker findings and verifier result.
+The featured workflow planned a launch for a fictional AI support assistant: a planner, reliability and security workers, synthesis, and independent verification. All **five assignments completed**, producing **seven byte-verified artifacts** with **49,706 reported tokens** and zero uncertain usage. Proposed acceptance tests inside the plan were not executed against a real support system.
 
-The plan's acceptance tests are **proposed, not executed**. Its thresholds and scenario facts are explicitly hypothetical. Real execution evidence establishes that the agent workflow produced and checked the plan; it does not establish that a customer-support system passed those proposed tests. The public walkthrough never simulates a live connection or grants access to the owner's workspace. An earlier deterministic arithmetic mission independently verified the orchestration's correctness, artifact downloads and budget continuation.
+## What I built
 
-## Architecture
+- **Durable execution:** a FastAPI mission service, SQLite state and LangGraph checkpoints preserve work beyond the browser session.
+- **Resource-aware scheduling:** dependencies, concurrency ceilings, leases, token reservations and bounded retries govern assignment admission.
+- **Inspectable outcomes:** the React workspace exposes results, handoffs, activity and downloadable artifacts; the live interface refreshes status by polling.
+- **Recovery and verification:** paid response checkpoints can publish without another provider request; independent verification may request bounded repair. A reservation-contention defect was fixed without erasing paid attempts or uncertain accounting.
+
+## Cloud and data architecture
 
 ```mermaid
 flowchart LR
-  UI[React workspace] --> Relay[Origin-checked API relay]
-  Relay --> API[FastAPI authentication and mission API]
-  API --> DB[(SQLite WAL and checkpoints)]
-  API --> Scheduler[Bounded scheduler]
-  Scheduler --> Plan[Planner]
-  Plan --> Workers[Dependency-aware workers]
-  Workers --> Verify[Independent verifier]
-  Verify --> Repair[Repair or final result]
-  Workers --> Tools[Allowlisted tools and artifact store]
-  Scheduler --> Provider[DeepSeek provider]
-  Scheduler --> Traces[Optional LangSmith tracing]
+  Public[Public Netlify walkthrough] --> Capture[Sanitized captured mission and artifacts]
+  UI[Authenticated Netlify frontend] --> Relay[Origin-checked relay]
+  Relay --> AWS[AWS Lightsail: FastAPI and scheduler]
+  AWS --> DB[(SQLite WAL: missions and artifacts)]
+  AWS --> CP[(SQLite: LangGraph checkpoints)]
+  AWS --> Provider[DeepSeek provider]
+  AWS --> Trace[Optional LangSmith tracing]
 ```
 
-The authenticated deployment runs on a persistent AWS service, separate from the Netlify frontend. It is **one application replica** with SQLite WAL, not an autoscaling or highly available distributed cluster. The default global pool limit is eight concurrent assignments. Agent count is a concurrency ceiling, not a promise that every worker runs simultaneously.
+The verified live runtime uses an **AWS Lightsail instance**, with a systemd-managed service behind HTTPS. The public frontend is hosted on **Netlify**. The runtime is one application replica; this project does not claim RDS, ECS, autoscaling or multi-host failover.
 
-Tools are limited to public HTTP retrieval, arithmetic, dependency/artifact reads, saved text artifacts and internal handoffs. There is no arbitrary shell, external messaging, payment, or deployment tool. Authentication, origin validation, secure cookies, download handling, token reservations and retry bounds are explicit boundaries.
+| Data / responsibility | Implementation |
+| --- | --- |
+| Missions, assignments, events, artifacts and handoffs | [SQLite store](runtime/backend/swarm/store.py), with WAL, full synchronous writes and foreign keys |
+| Token usage, leases and reservations | Transactional tables in the same store; bounded admission preserves uncertain usage |
+| Execution checkpoints | [LangGraph `AsyncSqliteSaver`](runtime/backend/swarm/engine.py) in a separate checkpoint database |
+| Owner sessions and access | [FastAPI authentication](runtime/backend/swarm/api.py), hashed session tokens and origin checks |
+| Public review data | [Captured synthetic mission](lib/capture/mission.json) and [downloadable artifacts](public/capture/artifacts); no private database access |
 
-## Run the public walkthrough
+Tools are restricted to public HTTP retrieval, arithmetic, artifact reads/writes and internal handoffs. No arbitrary shell, payment, deployment or external messaging tool is provided. Credentials and production infrastructure inventory are excluded from this standalone source publication.
 
-Requires Node.js 22.13 or later.
+## Run locally
+
+Node.js 22.13+ is required. The default capture makes no paid model calls.
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Open the Vite URL. By default the UI reads only `lib/capture/mission.json` and local captured files. Refreshing, changing tabs and downloading an artifact do not invoke an AI provider. `npm run build` creates `dist-netlify/`; the included Netlify configuration hosts this static walkthrough. No live API function is deployed by this default configuration.
+For a live runtime, use Python 3.11+, `uv`, your own provider credentials and persistent storage. [Runtime setup](docs/SETUP.md) covers the owner password hash, HTTPS/origin configuration and relay wiring. [.env.example](.env.example) contains placeholders only. The [authenticated workspace](https://swarm-nexus-shanto.netlify.app/) remains owner-controlled.
 
-## Run your own authenticated runtime
+## Evidence and code tour
 
-Requires Python 3.11+ and `uv`. Use your own credentials and persistent storage. Copy `.env.example` to an untracked environment file and configure the variables; the example contains placeholders only. The application does not automatically load an env file: inject variables with your process manager or shell.
+The published checkout passed **55 runtime tests**, **14 proxy/security tests**, type checking, build and a zero-vulnerability production npm audit during the September 14, 2026 release. Production browser checks cover desktop/mobile, tabs, artifacts, network/console and security headers. Native Chrome verified the public walkthrough and a downloaded artifact hash; featured live execution was verified through authenticated API/backend evidence. See the [full scope and receipts](docs/VERIFICATION.md).
 
-```sh
-cd runtime
-uv sync --frozen
-PYTHONPATH=backend uv run uvicorn swarm.api:app --host 127.0.0.1 --port 8001
-```
+![Saved agent assignments in the real captured mission](docs/screenshots/agent-assignments.png)
 
-Set `SWARM_OWNER_EMAIL`, `SWARM_PASSWORD_HASH`, `SWARM_PUBLIC_ORIGIN`, `SWARM_DB_PATH` and `DEEPSEEK_API_KEY`. The password-hash format is `scrypt$16384$8$1$salt_hex$key_hex`, with at least 16 salt bytes and a 32-byte derived key; `backend/tests/test_api.py` demonstrates the format with a test-only password. For local HTTP only, set `SWARM_COOKIE_SECURE=false`. Keep secure cookies enabled in production. Serve the runtime behind HTTPS.
+Start with [the scheduler](runtime/backend/swarm/engine.py), [durable store](runtime/backend/swarm/store.py), [reservation regression tests](runtime/backend/tests/test_reservation_wait.py), [workspace](app/workspace.tsx) or [relay boundary](lib/proxy.ts).
 
-To connect the full interface, build with `VITE_SHOWCASE=false`; copy `integrations/api.mts` into your Netlify functions folder, adjusting its import for that location, enable that folder in your own Netlify configuration, remove the static `/api/*` denial rule, and set `NEXUS_RUNTIME_ORIGIN` to your HTTPS runtime. Set `SWARM_PUBLIC_ORIGIN` to the same frontend origin. Neither backend tokens nor owner passwords belong in frontend environment variables. The retained relay tests show the origin/cookie/redirect contract. The public showcase intentionally does not make these changes.
-
-The provider model in this captured deployment reports `deepseek-v4-flash`. Provider aliases and availability can change; confirm your account's supported model before deploying your own runtime. Optional LangSmith settings are server-side only. Do not treat a configured tracing flag as evidence that traces arrived.
-
-## Verification
-
-```sh
-npm run typecheck
-npm test
-npm run build
-npm audit --omit=dev
-cd runtime
-PYTHONPATH=backend uv run --frozen pytest backend/tests -q
-```
-
-See [verification evidence](docs/VERIFICATION.md) for dated public deployment and original authenticated runtime checks, including what was automated and what was checked in the owner's real Chrome profile. Captured estimates are not provider invoices. Tests and a successful deployment do not imply broad production readiness, HA, unlimited execution, or external-system integrations.
-
-## Source map
-
-- `app/workspace.tsx`: mission creation, resource policy, mission views and operator controls.
-- `lib/client.ts`, `lib/showcase.ts`: live API transport versus explicit captured mode.
-- `lib/proxy.ts`, `lib/security.ts`: origin, cookie, route and response-security boundaries.
-- `runtime/backend/swarm/engine.py`, `store.py`: orchestration, durable state, scheduling and accounting.
-- `runtime/backend/swarm/provider.py`, `tool_registry.py`: provider protocol and constrained tools.
-- `runtime/backend/swarm/observability.py`: optional tracing hooks.
-- `lib/capture/`: sanitized synthetic mission response and captured tool metadata.
-- `public/capture/artifacts/`: actual saved artifact files.
-
-The orbit artwork was AI-generated for this project; it is a visual accent, not a scientific diagram. Interface screenshots and captured mission outputs are from the actual application. This is independent work, not employer code or a customer deployment.
+This is independent personal work with synthetic portfolio data. Screenshots depict actual application state. Generated orbit artwork is a visual accent; no customer deployment or broad production-readiness claim is implied.
