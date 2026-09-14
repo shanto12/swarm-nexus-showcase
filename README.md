@@ -14,7 +14,9 @@ This repository is an intentionally sanitized publication of personal project so
 
 A useful agent system needs more than parallel prompts. Work has dependencies, tools fail, calls consume reservations, and an interrupted browser must not lose a mission. Nexus connects durable orchestration with a result-first interface so an operator can inspect what happened and decide when to continue.
 
-The captured arithmetic mission is intentionally deterministic: independent workers calculate 17 × 19 and 23 × 29, a writer combines them, and a verifier independently checks the total, 990. This makes correctness testable while demonstrating real provider calls, persistent assignments, handoffs, a budget stop and continuation, and downloadable artifacts. The walkthrough never simulates a live connection or grants public access to the owner's workspace.
+The featured mission develops a launch-readiness plan for a **fictional AI support assistant**. Two workers analyze reliability/recovery and security/privacy/approval boundaries, a synthesizer produces a prioritized checklist, and the runtime's independent verifier checks the deliverables. All five assignments completed through actual cloud provider calls, using 49,706 reported tokens with zero uncertain usage. The seven downloaded artifacts include the launch plan, worker findings and verifier result.
+
+The plan's acceptance tests are **proposed, not executed**. Its thresholds and scenario facts are explicitly hypothetical. Real execution evidence establishes that the agent workflow produced and checked the plan; it does not establish that a customer-support system passed those proposed tests. The public walkthrough never simulates a live connection or grants access to the owner's workspace. An earlier deterministic arithmetic mission independently verified the orchestration's correctness, artifact downloads and budget continuation.
 
 ## Architecture
 

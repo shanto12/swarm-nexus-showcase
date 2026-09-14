@@ -71,6 +71,8 @@ class Store:
         """)
         if "tokens_uncertain" not in {r[1] for r in self.db.execute("PRAGMA table_info(tasks)")}:
             self.db.execute("ALTER TABLE tasks ADD COLUMN tokens_uncertain INTEGER NOT NULL DEFAULT 0")
+        if "budget_wait" not in {r[1] for r in self.db.execute("PRAGMA table_info(items)")}:
+            self.db.execute("ALTER TABLE items ADD COLUMN budget_wait INTEGER NOT NULL DEFAULT 0")
         self.db.executescript('''CREATE TABLE IF NOT EXISTS resource_policies (
           task_id TEXT PRIMARY KEY REFERENCES tasks(id), mode TEXT NOT NULL,
           agent_ceiling INTEGER NOT NULL, token_ceiling INTEGER NOT NULL,
@@ -164,7 +166,7 @@ class Store:
         item = dict(row)
         item["dependencies"] = json.loads(item["dependencies"])
         if not internal:
-            for key in ("prompt", "lease_token", "lease_until", "response", "usage_recorded", "reserved_tokens", "available_at"):
+            for key in ("prompt", "lease_token", "lease_until", "response", "usage_recorded", "reserved_tokens", "available_at", "budget_wait"):
                 item.pop(key, None)
         return item
 
@@ -287,6 +289,11 @@ class Store:
                             self._stop(db, task["id"], "budget_exhausted", "Token budget reached (including unconfirmed interrupted requests). Increase this task's budget to continue.")
                             break
                         continue
+                    # A timer is not evidence that sibling reservations settled.
+                    # Preserve the remaining paid retry until those funds are free,
+                    # including after a worker/service restart.
+                    if not row["response"] and row["budget_wait"] and active[1]:
+                        continue
                     # Do not start a tiny allocation while siblings hold funds.
                     if not row['response'] and active[0] and remaining < 8192:
                         continue
@@ -298,7 +305,7 @@ class Store:
                     token = uid()
                     reserved = 0 if row["response"] else min(remaining, 20000, max(8192, remaining // max(1, task["agent_limit"] - active[0])))
                     db.execute('INSERT INTO lease_reservations(lease_token,task_id,tokens) VALUES(?,?,?)',(token,task['id'],reserved))
-                    db.execute("UPDATE items SET status='running',assigned_agent=?,attempt=?,lease_token=?,lease_until=?,reserved_tokens=? WHERE id=?",
+                    db.execute("UPDATE items SET status='running',assigned_agent=?,attempt=?,lease_token=?,lease_until=?,reserved_tokens=?,budget_wait=0 WHERE id=?",
                                (f"{row['role']}-{row['id'][:6]}", attempt, token, time.time() + lease_seconds, reserved, row["id"]))
                     db.execute("UPDATE tasks SET status='running',updated_at=? WHERE id=?", (now(), task["id"]))
                     self._event(db, task["id"], "assigned", f"{row['title']} · attempt {attempt}", row["id"], f"{row['role']}-{row['id'][:6]}")
@@ -424,20 +431,27 @@ class Store:
                 self._stop(db, item["task_id"], terminal_status, f"{item['title']}: {message}")
 
     def defer_budget_contention(self,item):
-        """Retry only when sibling settlement could release the needed funds."""
+        """Wait for sibling settlement without refunding paid or uncertain work."""
         with self.tx() as db:
-            siblings=db.execute("SELECT COALESCE(SUM(reserved_tokens),0) FROM items WHERE task_id=? AND id!=? AND status='running'",(item['task_id'],item['id'])).fetchone()[0]
+            row=db.execute("SELECT * FROM items WHERE id=? AND lease_token=? AND status='running'",(item['id'],item['lease_token'])).fetchone()
+            if not row:
+                return False
+            siblings=db.execute("SELECT COALESCE(SUM(reserved_tokens),0) FROM items WHERE task_id=? AND id!=? AND status='running'",(row['task_id'],row['id'])).fetchone()[0]
             if not siblings:
                 return False
-            receipt=db.execute('SELECT tokens FROM usage_receipts WHERE lease_token=?',(item['lease_token'],)).fetchone()
-            paid=bool(receipt and receipt[0])
-            task=self._task(db,item['task_id'])
-            if paid and item['attempt']>=task['max_attempts']:
-                self._stop(db,item['task_id'],'blocked','Assignment reached its paid-attempt limit while waiting for token reservations. No further paid retry was admitted.')
+            # Missing accounting is not proof of a free request. Retain its
+            # reservation as uncertain before releasing the execution lease.
+            self._hold_lease(db,row)
+            receipt=db.execute('SELECT tokens,estimated_cost_usd FROM usage_receipts WHERE lease_token=?',(row['lease_token'],)).fetchone()
+            lease=db.execute('SELECT uncertain FROM lease_reservations WHERE lease_token=?',(row['lease_token'],)).fetchone()
+            paid=bool(receipt is None or receipt['tokens'] or receipt['estimated_cost_usd'] or (lease and lease['uncertain']))
+            task=self._task(db,row['task_id'])
+            if paid and row['attempt']>=task['max_attempts']:
+                self._stop(db,row['task_id'],'blocked','Assignment reached its paid-attempt limit while waiting for token reservations. No further paid retry was admitted.')
                 return True
-            changed=db.execute("UPDATE items SET status='queued',attempt=MAX(0,attempt-?),lease_token=NULL,lease_until=NULL,reserved_tokens=0,response=NULL,usage_recorded=0,available_at=? WHERE id=? AND lease_token=? AND status='running'",(0 if paid else 1,time.time()+2,item['id'],item['lease_token'])).rowcount
-            if changed:self._event(db,item['task_id'],'resource_wait','Waiting for sibling token reservations to settle before retrying this assignment.',item['id'])
-            return bool(changed)
+            db.execute("UPDATE items SET status='queued',attempt=MAX(0,attempt-?),lease_token=NULL,lease_until=NULL,reserved_tokens=0,response=NULL,usage_recorded=0,budget_wait=1,available_at=? WHERE id=?",(0 if paid else 1,time.time()+2,row['id']))
+            self._event(db,row['task_id'],'resource_wait','Waiting for sibling token reservations to settle before retrying this assignment.',row['id'])
+            return True
 
     def retry_publication(self,item):
         """A durable paid answer survives a transient publication/storage error."""

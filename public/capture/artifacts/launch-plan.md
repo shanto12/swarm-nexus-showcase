@@ -1,6 +1,6 @@
 # Launch Plan — Fictional AI Customer-Support Assistant
 
-**Status label: ALL acceptance tests below are PROPOSED, NOT EXECUTED.** No production testing occurred. All scenario facts are assumptions.
+**Status label: ALL acceptance tests below are PROPOSED, NOT EXECUTED.** No production testing occurred.
 
 ## (a) Prioritized Pre-Launch Checks
 1. **Safety gates (P0):** human-approval gates for refunds, account changes, data deletion; assistant drafts only.
@@ -28,11 +28,3 @@
 
 ## (d) Test Status
 All acceptance tests are **proposed, not executed**. This plan is a readiness checklist, not a test report.
-
----
-
-**Verification notes (evidence-based):**
-- Ledger confirms exactly 3 worker assignments (reliability, security/privacy, synthesizer) plus planner and this verifier; no extra review worker. Tool counts: reliability worker read_context 1 / save_artifact 1 / send_handoff 1; security worker same; synthesizer read_artifact 2 / save_artifact 1 / send_handoff 1 — matching the required dependency reads and single handoff to the verifier.
-- Artifacts read in full: reliability-recovery.md (1316 chars, 5 proposed tests), security-privacy-approval.md (1116 chars, 5 proposed tests), launch-plan.md (2498 chars). Both worker artifacts are under 160 words; launch-plan.md is under 450 words.
-- Handoff targets match the dependency graph: both workers → synthesizer; synthesizer → verifier. No redundant handoffs.
-- All acceptance tests are explicitly labeled "proposed, not executed"; assumptions section states facts are fictional and no production testing occurred. No web research, customer data, real integrations, or arithmetic demonstration present.

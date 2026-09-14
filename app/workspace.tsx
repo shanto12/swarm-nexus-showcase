@@ -1,4 +1,4 @@
-import {SHOWCASE, capturedMissionId} from '@/lib/showcase';
+import {SHOWCASE, capturedMissionId, capturedTitle} from '@/lib/showcase';
 'use client';
 /* oxlint-disable next/no-html-link-for-pages -- Shared with the standalone Netlify React build, which has no Next router. */
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
@@ -63,6 +63,9 @@ const terminal = new Set([
   'budget_exhausted',
 ]);
 const statusName = (s: string) => s.replaceAll('_', ' ');
+function Inline({text}: {text: string}) {
+  return <>{text.split(/(\*\*.*?\*\*)/g).map((part, i) => part.startsWith('**') && part.endsWith('**') ? <strong key={i}>{part.slice(2, -2)}</strong> : part)}</>;
+}
 function Status({ value }: { value: string }) {
   return (
     <span className={'status ' + value}>
@@ -565,7 +568,7 @@ export default function Workspace() {
         </div>
       </header>
       <main className="workspace">
-        {SHOWCASE && <section className="showcase-note" aria-label="About this public walkthrough"><div><strong>REAL CLOUD EXECUTION · PUBLIC WALKTHROUGH</strong><p>Inspect a completed mission: two independent workers, synthesis, verification and downloadable evidence. Captured September 14, 2026. This view is read-only; live execution stays behind owner authentication.</p></div><a href="https://github.com/shanto12/swarm-nexus-showcase#architecture" target="_blank" rel="noreferrer">Explore the architecture <ArrowUpRight size={16}/></a></section>}
+        {SHOWCASE && <section className="showcase-note" aria-label="About this public walkthrough"><div><strong>REAL CLOUD EXECUTION · SYNTHETIC LAUNCH PLANNING</strong><p>Inspect a real completed mission: reliability and security workers, a synthesized launch checklist, independent verification and downloadable artifacts. Captured September 14, 2026. This view is read-only; live execution stays behind owner authentication.</p></div><a href="https://github.com/shanto12/swarm-nexus-showcase#architecture" target="_blank" rel="noreferrer">Explore the architecture <ArrowUpRight size={16}/></a></section>}
         <div className="page-heading">
           <div>
             <div className="eyebrow">
@@ -642,7 +645,7 @@ export default function Workspace() {
               <strong>{user ? String(running).padStart(2, '0') : '—'}</strong>
               <small>
                 {user
-                  ? 'Running or queued in the cloud'
+                  ? (SHOWCASE ? 'Active at capture time' : 'Running or queued in the cloud')
                   : 'Sign in to view your workspace'}
               </small>
             </div>
@@ -651,7 +654,7 @@ export default function Workspace() {
                 <ShieldCheck size={15} /> Verified outcomes
               </span>
               <strong>{user ? String(completed).padStart(2, '0') : '—'}</strong>
-              <small>Completed missions in your history</small>
+              <small>{SHOWCASE ? "Verified in this captured record" : "Completed missions in your history"}</small>
             </div>
             <div>
               <span>
@@ -861,7 +864,7 @@ export default function Workspace() {
                       )}
                     </span>
                   </div>
-                  <h3>{m.prompt}</h3>
+                  <h3>{SHOWCASE ? capturedTitle : m.prompt}</h3>
                   <div className="mission-meta">
                     <span>
                       <Network size={13} />
@@ -892,12 +895,12 @@ export default function Workspace() {
                   <div className="detail-header">
                     <div className="section-top">
                       <div className="eyebrow">
-                        MISSION / {detail.task.id.slice(0, 8).toUpperCase()}
+                        MISSION / {SHOWCASE ? 'SYNTHETIC LAUNCH PLAN' : detail.task.id.slice(0, 8).toUpperCase()}
                       </div>
                       <Status value={detail.task.status} />
                     </div>
                     <h2>
-                      {detail.task.prompt.length > 160
+                      {SHOWCASE ? capturedTitle : detail.task.prompt.length > 160
                         ? detail.task.prompt.slice(0, 157) + '…'
                         : detail.task.prompt}
                     </h2>
@@ -1032,7 +1035,7 @@ export default function Workspace() {
                         />
                         {detail.task.result ? (
                           <div className="result-content">
-                            {SHOWCASE ? detail.task.result.split('\n').map((line, i) => line.startsWith('# ') ? <h3 key={i}>{line.slice(2)}</h3> : line.startsWith('## ') ? <h4 key={i}>{line.slice(3)}</h4> : line.startsWith('### ') ? <h4 key={i}>{line.slice(4)}</h4> : <p key={i}>{line || '\u00a0'}</p>) : detail.task.result}
+                            {SHOWCASE ? detail.task.result.split('\n').map((line, i) => line.startsWith('# ') ? <h3 key={i}>{line.slice(2)}</h3> : line.startsWith('## ') ? <h4 key={i}>{line.slice(3)}</h4> : line.startsWith('### ') ? <h4 key={i}>{line.slice(4)}</h4> : <p key={i}><Inline text={line || '\u00a0'}/></p>) : detail.task.result}
                           </div>
                         ) : (
                           <div className="pending-outcome">
@@ -1457,18 +1460,18 @@ export default function Workspace() {
                   (!health?.observability.configured ? 'muted' : '')
                 }
               >
-                {health?.observability.configured
+                {SHOWCASE ? 'Capture only' : health?.observability.configured
                   ? 'Configured'
                   : 'Not connected'}
               </span>
             </div>
             <p>
-              {health?.observability.configured
+              {SHOWCASE ? 'This public walkthrough exposes the saved activity ledger and tool inventory. Private LangSmith traces remain in the authenticated workspace.' : health?.observability.configured
                 ? 'Assignment and DeepSeek model traces are enabled.'
                 : 'A LangSmith API key is still needed to send traces. The activity ledger remains available in Nexus.'}
             </p>
             <span>
-              {health?.observability.project || 'swarm-nexus-production'}
+              {SHOWCASE ? 'No tracing credentials are included in this public site.' : (health?.observability.project || 'swarm-nexus-production')}
             </span>
             <a
               className="text-link"

@@ -1,16 +1,16 @@
 {
   "task": {
-    "id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-    "prompt": "Portfolio verification: calculate 17 × 19 and 23 × 29 as two independent assignments. Combine their results in a concise report named capacity-summary.md, showing both calculations and the total. Independently verify the final arithmetic. No web access is needed.",
+    "id": "b1010760c4984717b3aa16100eb302aa",
+    "prompt": "Create a useful launch-readiness plan for a FICTIONAL AI customer-support assistant. All scenario facts are assumptions; do not claim real production testing. Planner: create EXACTLY THREE worker assignments: (1) reliability and recovery, (2) security, prompt injection, privacy and human approval, (3) synthesize launch-plan.md depending on both (1) and (2). Do not add a review or verification worker: the runtime already adds its automatic independent verifier. Each of the first two workers should write one concise artifact under 160 words, with concrete acceptance tests. The synthesizer combines their findings into launch-plan.md under 450 words with prioritized checks, measurable stop/go criteria, and explicit assumptions. Use the supplied dependency outputs and artifact tools; avoid rereading redundant material or repeated handoffs. No web research, customer data, real integrations, external actions, or arithmetic demonstration. The automatic verifier should check the three saved deliverables and provide the useful final plan, clearly labeling acceptance tests as proposed, not executed.",
     "status": "completed",
     "agent_limit": 2,
-    "max_attempts": 3,
+    "max_attempts": 2,
     "token_budget": 100000,
-    "tokens_used": 54685,
-    "estimated_cost_usd": 0.014511160000000002,
-    "created_at": "2026-09-14T14:39:15.328119+00:00",
-    "updated_at": "2026-09-14T14:41:41.664458+00:00",
-    "result": "# Capacity Summary\n\n## Calculation 1: 17 × 19\n\n17 × 19 = 323\n\n## Calculation 2: 23 × 29\n\n23 × 29 = 667\n\n## Total\n\n323 + 667 = 990\n\n## Note\n\nThe two products (17 × 19 = 323 and 23 × 29 = 667) came from two independent assignments. This report combines their results and states the total.\n\n---\n\n### Independent verification (verifier)\n\n- 17 × 19 = 323 — recomputed directly (17*19 = 323); consistent with the distributive method 17×20 − 17 = 340 − 17 = 323 and with exact division checks 323/17 = 19, 323/19 = 17.\n- 23 × 29 = 667 — recomputed directly (23*29 = 667); consistent with 23×30 − 23 = 690 − 23 = 667 and with exact division checks 667/23 = 29, 667/29 = 23.\n- Total: 323 + 667 = 990 — recomputed both as a sum and as a single expression (17*19 + 23*29 = 990); inverse checks 990 − 667 = 323 and 990 − 323 = 667 both hold.\n- Provenance: the two products were produced by separate worker assignments (78a63b2459be470189639b61fcda82d9 → 323; ab868ca45c6e47eaa919c01b24cffb57 → 667), each with its own evidence artifact (17x19-evidence.md, compute-23x29-evidence.md), and the report artifact capacity-summary.md (id 62d3937a6d659861b6cc11a611f2f6be) contains both calculations and the total with no extraneous claims. Ledger execution_evidence confirms calculate/save_artifact/send_handoff tool use by each worker and the writer, with handoffs routed to the writer and then to this verifier. No web access was used or needed.",
+    "tokens_used": 49706,
+    "estimated_cost_usd": 0.012131136,
+    "created_at": "2026-09-14T15:09:21.171062+00:00",
+    "updated_at": "2026-09-14T15:09:48.945771+00:00",
+    "result": "# Launch Plan \u2014 Fictional AI Customer-Support Assistant\n\n**Status label: ALL acceptance tests below are PROPOSED, NOT EXECUTED.** No production testing occurred. All scenario facts are assumptions.\n\n## (a) Prioritized Pre-Launch Checks\n1. **Safety gates (P0):** human-approval gates for refunds, account changes, data deletion; assistant drafts only.\n2. **Injection defense (P0):** instruction hierarchy (system > policy > user > retrieved content); retrieved text treated as data; input/output filters; tool allowlist (read-only KB search, ticket lookup) \u2014 no code/network tools.\n3. **Privacy (P0):** PII minimization at ingestion; card/ID redaction before logging; 30-day retention with deletion jobs; RBAC + audited access.\n4. **Reliability (P1):** retry/timeout policy (2 retries, backoff 1s/3s, 10s per-call, 30s turn budget, no retry on 4xx); degradation to uncertainty disclosure + human handoff + ticket with transcript.\n5. **Rollback (P1):** feature-flag kill-switch to human-only; config rollback within 5 min.\n6. **Escalation (P2):** triggers = repeated failure, low confidence, user request, billing/legal/account-deletion, 2 failed retries.\n\n## (b) Measurable Stop/Go Criteria (tied to worker acceptance tests)\n**GO only if all P0 pass; any P0 failure = STOP.**\n- Injection: 0/50 payloads trigger unauthorized tool calls; 100% out-of-allowlist requests blocked.\n- Privacy: 0 PII tokens in 100 sampled logs; 100% of records deleted within 24h of the 30-day window.\n- Approval: 0/20 refund/account/deletion requests execute without human approval.\n- Reliability: 100% of simulated 5xx sessions fall back to human within 30s; retries \u22642 with no duplicate tickets on 10s timeout; 100% of low-confidence answers offer handoff.\n- Rollback: kill-switch reverts to human-only within 60s; backlog breach emits callback offer in 100% of sessions.\n\n**Partial GO:** P1/P2 misses with documented mitigations and a rollback path. **STOP:** any P0 miss, or kill-switch exceeding 60s.\n\n## (c) Assumptions\n- All scenario facts are **fictional**; every figure, threshold, and failure mode is an assumption.\n- **No production testing occurred**; no real integrations, customer data, or external actions were used.\n- Acceptance tests are **proposed, not executed**; results are unverified targets, not evidence.\n- Retention (30 days), retry counts, and timeouts are illustrative defaults pending real validation.\n\n## (d) Test Status\nAll acceptance tests are **proposed, not executed**. This plan is a readiness checklist, not a test report.\n\n---\n\n**Verification notes (evidence-based):**\n- Ledger confirms exactly 3 worker assignments (reliability, security/privacy, synthesizer) plus planner and this verifier; no extra review worker. Tool counts: reliability worker read_context 1 / save_artifact 1 / send_handoff 1; security worker same; synthesizer read_artifact 2 / save_artifact 1 / send_handoff 1 \u2014 matching the required dependency reads and single handoff to the verifier.\n- Artifacts read in full: reliability-recovery.md (1316 chars, 5 proposed tests), security-privacy-approval.md (1116 chars, 5 proposed tests), launch-plan.md (2498 chars). Both worker artifacts are under 160 words; launch-plan.md is under 450 words.\n- Handoff targets match the dependency graph: both workers \u2192 synthesizer; synthesizer \u2192 verifier. No redundant handoffs.\n- All acceptance tests are explicitly labeled \"proposed, not executed\"; assumptions section states facts are fictional and no production testing occurred. No web research, customer data, real integrations, or arithmetic demonstration present.",
     "blocker": null,
     "repair_round": 0,
     "tokens_uncertain": 0,
@@ -22,15 +22,17 @@
       "token_ceiling": 100000,
       "assessment": {
         "policy_version": "nexus-1",
-        "complexity": "focused",
-        "score": 1,
+        "complexity": "standard",
+        "score": 3,
         "recommended_agents": 2,
-        "initial_token_allocation": 40000,
+        "initial_token_allocation": 90000,
         "agent_ceiling": 2,
-        "token_ceiling": 60000,
+        "token_ceiling": 100000,
         "basis": "prompt_estimate",
         "reasons": [
-          "Multiple deliverables or stages"
+          "Research and source comparison",
+          "Multiple deliverables or stages",
+          "Broad or detailed scope"
         ],
         "explanation": "Initial estimate. The saved plan and ready assignments determine actual concurrency; tokens grow only within your ceiling."
       }
@@ -38,921 +40,516 @@
   },
   "items": [
     {
-      "id": "8b049729172a4b48aa466a9c73fb64d9",
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "id": "db077f662fb648e2b443132cd9b37da5",
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
       "title": "Plan the assignment",
       "role": "planner",
       "status": "completed",
       "dependencies": [],
-      "assigned_agent": "planner-8b0497",
+      "assigned_agent": "planner-db077f",
       "attempt": 1,
-      "output": "{\"items\":[{\"id\":\"calc-a\",\"title\":\"Compute 17 × 19\",\"prompt\":\"Compute 17 × 19 exactly using arithmetic (e.g., 17 × 19 = 17 × 20 − 17 = 340 − 17 = 323). Report the product, the method used, and a self-check (e.g., 323 ÷ 17 = 19). No web access is needed or available; do not attempt external lookups. Deliverable: a short evidence note stating the product 323 with the arithmetic steps.\"},{\"id\":\"calc-b\",\"title\":\"Compute 23 × 29\",\"prompt\":\"Compute 23 × 29 exactly using arithmetic (e.g., 23 × 29 = 23 × 30 − 23 = 690 − 23 = 667). Report the product, the method used, and a self-check (e.g., 667 ÷ 23 = 29). No web access is needed or available; do not attempt external lookups. Deliverable: a short evidence note stating the product 667 with the arithmetic steps.\"},{\"id\":\"synthesis\",\"title\":\"Write capacity-summary.md\",\"prompt\":\"Combine the two independent results into a concise report artifact named capacity-summary.md. Show both calculations explicitly (17 × 19 = 323 and 23 × 29 = 667), then the total: 323 + 667 = 990. Include a short note that the two products came from independent assignments. Do not add any other claims or external references. Deliverable: capacity-summary.md containing both calculations and the total 990.\"}],\"constraints\":[\"No web access is needed or available; all work is pure arithmetic and file authoring.\",\"Pool cap is 2 simultaneous agents; calc-a and calc-b can run in parallel, synthesis depends on both.\",\"The framework adds its own independent verifier after these workers; no separate verification worker is included here.\",\"If artifact staging is unavailable, report that as a precise blocker rather than claiming the file was written.\"]}",
+      "output": "{\"items\":[{\"id\":\"reliability-recovery\",\"title\":\"Reliability and recovery readiness\",\"prompt\":\"For a FICTIONAL AI customer-support assistant (all facts are assumptions; no real production testing), write ONE concise artifact 'reliability-recovery.md' under 160 words. Cover: failure modes (model/API timeout, hallucinated answer, tool/CRM outage, queue backlog), graceful degradation and fallback to human agents, retry/timeout policy, escalation triggers, and rollback/kill-switch. Include 3-5 concrete acceptance tests, each labeled 'proposed (not executed)', with a measurable pass condition (e.g., 'proposed: on simulated 5xx, 100% of sessions fall back to human within 30s'). Use the artifact tool to save the file. No web research, no real integrations, no customer data, no arithmetic demonstration. Return the artifact path and a one-line summary.\"},{\"id\":\"security-privacy-approval\",\"title\":\"Security, prompt injection, privacy, human approval\",\"prompt\":\"For a FICTIONAL AI customer-support assistant (all facts are assumptions; no real production testing), write ONE concise artifact 'security-privacy-approval.md' under 160 words. Cover: prompt-injection and jailbreak defenses (input/output filtering, instruction hierarchy, tool allowlist), data privacy (PII minimization, retention, redaction, access control), and human-approval gates for high-risk actions (refunds, account changes, data deletion). Include 3-5 concrete acceptance tests, each labeled 'proposed (not executed)', with a measurable pass condition (e.g., 'proposed: 0/50 injection payloads trigger unauthorized tool calls'). Use the artifact tool to save the file. No web research, no real integrations, no customer data, no arithmetic demonstration. Return the artifact path and a one-line summary.\"},{\"id\":\"synthesis\",\"title\":\"Synthesize launch-plan.md\",\"prompt\":\"Read the two dependency artifacts 'reliability-recovery.md' and 'security-privacy-approval.md' via read_artifact (do not reread redundant material). Combine them into ONE artifact 'launch-plan.md' under 450 words containing: (a) prioritized pre-launch checks, (b) measurable stop/go criteria tied to the workers' acceptance tests, (c) an explicit 'Assumptions' section stating all scenario facts are fictional and no production testing occurred, and (d) a clear label that all acceptance tests are proposed, not executed. Use the artifact tool to save the file. No web research, no real integrations, no external actions, no arithmetic demonstration. Return the artifact path and a short summary of the stop/go criteria.\"}]}",
       "error": null,
-      "created_at": "2026-09-14T14:39:15.328295+00:00"
+      "created_at": "2026-09-14T15:09:21.171233+00:00"
     },
     {
-      "id": "78a63b2459be470189639b61fcda82d9",
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "title": "Compute 17 × 19",
+      "id": "fee225ea67694615a1fc83203c81cade",
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "title": "Reliability and recovery readiness",
       "role": "worker",
       "status": "completed",
       "dependencies": [],
-      "assigned_agent": "worker-78a63b",
+      "assigned_agent": "worker-fee225",
       "attempt": 1,
-      "output": "## Result\n\n**17 × 19 = 323**\n\n**Method:** distributive / round-number adjustment\n17 × 19 = 17 × (20 − 1) = 17 × 20 − 17 = 340 − 17 = 323\n\n**Self-check:** 323 ÷ 17 = 19 exactly, and 323 ÷ 19 = 17 exactly — both factors recovered, so the product is confirmed.\n\n### Observable evidence (local arithmetic tool)\n| Expression | Result |\n|---|---|\n| `17 * 19` | 323 |\n| `17 * 20 - 17` | 323 |\n| `323 / 17` | 19.0 |\n| `323 / 19` | 17.0 |\n| `17 * 19 + 23 * 29` | 990 |\n\n### Deliverables staged\n- Artifact `17x19-evidence.md` (sha256 `fed3bcef…b90de5`) — short evidence note with product, method, steps, self-check, and scope limits.\n- Handoff to item `395a2de93df14c15ac6ffccdd94aeb34` (Write capacity-summary.md) supplying 323 for the 17 × 19 term, plus the combined cross-check total 990.\n\n### Notes / limitations\n- No web access was used or needed; all values come from the local arithmetic tool.\n- This assignment covers only 17 × 19. The 23 × 29 term (667) belongs to sibling assignment `ab868ca45c6e47eaa919c01b24cffb57`; I cited it only for the combined total and did not independently compute it here.\n- No blockers.",
+      "output": "**Artifact path:** `reliability-recovery.md` (staged, sha256 `8739d96ceeb3779f687574b10df506be6b33e9be35190215b24565ce1e9626e3`, ~150 words)\n\n**Summary:** Fictional reliability/recovery plan covering four failure modes, human-fallback degradation, a 2-retry/10s-timeout policy, five escalation triggers, a 60s kill-switch rollback, and five acceptance tests all labeled \"proposed (not executed)\" with measurable pass conditions.\n\n**Evidence:** `save_artifact` returned `staged: true` for `reliability-recovery.md`; handoff staged to synthesizer `16998c19432841fcb39e56c1478e1fea` with the key inputs. No dependencies or steering existed to read; no web research, integrations, or customer data used. No blockers.",
       "error": null,
-      "created_at": "2026-09-14T14:39:18.235733+00:00"
+      "created_at": "2026-09-14T15:09:25.389005+00:00"
     },
     {
-      "id": "ab868ca45c6e47eaa919c01b24cffb57",
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "title": "Compute 23 × 29",
+      "id": "8fe4a616d5874f7a9f2198bc96e5b7e1",
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "title": "Security, prompt injection, privacy, human approval",
       "role": "worker",
       "status": "completed",
       "dependencies": [],
-      "assigned_agent": "worker-ab868c",
+      "assigned_agent": "worker-8fe4a6",
       "attempt": 1,
-      "output": "## Result: 23 × 29 = 667\n\n**Method (distributive / round-number shortcut):**\n23 × 29 = 23 × (30 − 1) = 23 × 30 − 23 = 690 − 23 = **667**\n\n**Self-check (tool-verified):**\n- 667 ÷ 23 = 29.0 exactly\n- 667 ÷ 29 = 23.0 exactly\n- Residual: 23 × 29 − 667 = 0\n\nBoth quotients reproduce the original factors, confirming the product.\n\n**Evidence (arithmetic tool outputs):**\n| Expression | Result |\n|---|---|\n| 23 * 29 | 667 |\n| 23 * 30 - 23 | 667 |\n| 667 / 23 | 29.0 |\n| 667 / 29 | 23.0 |\n| 23 * 29 - 667 | 0 |\n\n**Artifacts / handoffs:**\n- Staged artifact `compute-23x29-evidence.md` (sha256 `67ac2ff6…23c8`).\n- Handoff sent to the `capacity-summary.md` writer (item `395a2de93df14c15ac6ffccdd94aeb34`) with the value 667 and the note that the sibling assignment's 17 × 19 = 323 yields a combined total of 990.\n\n**Blocker:** none. No web access was used or needed; all results come from the arithmetic tool.",
+      "output": "**Artifact path:** `security-privacy-approval.md` (staged, sha256 `1afc6cf90a2ffbca0ba78de5fe9fead01a80bc8b3f77b10b3c70d962731227c2`, ~150 words)\n\n**Summary:** Fictional-scenario security/privacy controls (instruction hierarchy, injection filters, tool allowlist, PII minimization/redaction/retention/RBAC, human-approval gates for refunds, account changes, data deletion) with 5 measurable acceptance tests all labeled \"proposed (not executed).\"\n\nHandoff sent to the synthesizer (`16998c19432841fcb39e56c1478e1fea`) with the key points and test conditions. No blockers; no web research, integrations, or customer data used.",
       "error": null,
-      "created_at": "2026-09-14T14:39:18.235763+00:00"
+      "created_at": "2026-09-14T15:09:25.389028+00:00"
     },
     {
-      "id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "title": "Write capacity-summary.md",
+      "id": "16998c19432841fcb39e56c1478e1fea",
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "title": "Synthesize launch-plan.md",
       "role": "worker",
       "status": "completed",
       "dependencies": [],
-      "assigned_agent": "worker-395a2d",
+      "assigned_agent": "worker-16998c",
       "attempt": 1,
-      "output": "## Summary\n\nDeliverable **capacity-summary.md** is staged (sha256 `2ce3f8b5cfd28453e61a09630f0a6fcc912cb1912f65e5649e3da68cac631a8e`).\n\n**Contents:**\n- Calculation 1: 17 × 19 = 323\n- Calculation 2: 23 × 29 = 667\n- Total: 323 + 667 = 990\n- Note that the two products came from independent assignments\n\nNo other claims or external references were added, per the assignment.\n\n**Observable evidence (arithmetic tool):**\n| Check | Expression | Result |\n|---|---|---|\n| Product 1 | 17 × 19 | 323 |\n| Product 2 | 23 × 29 | 667 |\n| Total | 323 + 667 | 990 |\n| Cross-check | 323 ÷ 17 | 19.0 |\n| Cross-check | 323 ÷ 19 | 17.0 |\n| Cross-check | 17 × 20 − 17 | 323 |\n| Cross-check | 990 − 667 | 323 |\n| Cross-check | 990 − 323 | 667 |\n\n**Sources:** 23 × 29 = 667 corroborated by dependency artifact `compute-23x29-evidence.md` (item `ab868ca45c6e47eaa919c01b24cffb57`); 17 × 19 = 323 confirmed directly via the arithmetic tool. Handoff sent to the verifier (item `b5b395430fd744f7b371ca40dbfa49f6`).\n\n**Blocker:** None. No web access was needed or used.",
+      "output": "**Artifact path:** `launch-plan.md` (sha256 `a9ee567d6c2edfabc2d26788eb6528311d9f61ad44f22db7a01433b95a55d63f`)\n\n**Summary of stop/go criteria:**\n- **GO** only if all P0 checks pass: injection defense (0/50 payloads trigger unauthorized tool calls; 100% out-of-allowlist requests blocked), privacy (0 PII tokens in 100 sampled logs; 100% deletion within 24h of the 30-day window), and human approval (0/20 refund/account/deletion requests execute without approval).\n- **STOP** on any P0 miss, or if the kill-switch exceeds 60s to revert to human-only routing.\n- **Partial GO** for P1/P2 misses (reliability fallback, escalation, backlog callback) with documented mitigations and a rollback path.\n\n**Evidence:** Combined both dependency artifacts read via `read_artifact` \u2014 reliability-recovery.md (failure modes, retry/timeout, escalation, kill-switch, 5 proposed tests) and security-privacy-approval.md (injection defenses, privacy, approval gates, 5 proposed tests). The plan includes prioritized P0/P1/P2 checks, stop/go criteria tied to all 10 worker acceptance tests, an explicit Assumptions section (all facts fictional, no production testing), and a clear \"proposed, not executed\" label.\n\n**Blocker:** None. No web research, integrations, or external actions were used, per assignment constraints.",
       "error": null,
-      "created_at": "2026-09-14T14:39:18.235779+00:00"
+      "created_at": "2026-09-14T15:09:25.389042+00:00"
     },
     {
-      "id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "id": "46c6a9d547274dbe9c3f6c931433ed1b",
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
       "title": "Independently verify deliverables",
       "role": "verifier",
       "status": "completed",
       "dependencies": [
-        "78a63b2459be470189639b61fcda82d9",
-        "ab868ca45c6e47eaa919c01b24cffb57",
-        "395a2de93df14c15ac6ffccdd94aeb34"
+        "fee225ea67694615a1fc83203c81cade",
+        "8fe4a616d5874f7a9f2198bc96e5b7e1",
+        "16998c19432841fcb39e56c1478e1fea"
       ],
-      "assigned_agent": "verifier-b5b395",
-      "attempt": 2,
-      "output": "{\"accepted\":true,\"result\":\"# Capacity Summary\\n\\n## Calculation 1: 17 × 19\\n\\n17 × 19 = 323\\n\\n## Calculation 2: 23 × 29\\n\\n23 × 29 = 667\\n\\n## Total\\n\\n323 + 667 = 990\\n\\n## Note\\n\\nThe two products (17 × 19 = 323 and 23 × 29 = 667) came from two independent assignments. This report combines their results and states the total.\\n\\n---\\n\\n### Independent verification (verifier)\\n\\n- 17 × 19 = 323 — recomputed directly (17*19 = 323); consistent with the distributive method 17×20 − 17 = 340 − 17 = 323 and with exact division checks 323/17 = 19, 323/19 = 17.\\n- 23 × 29 = 667 — recomputed directly (23*29 = 667); consistent with 23×30 − 23 = 690 − 23 = 667 and with exact division checks 667/23 = 29, 667/29 = 23.\\n- Total: 323 + 667 = 990 — recomputed both as a sum and as a single expression (17*19 + 23*29 = 990); inverse checks 990 − 667 = 323 and 990 − 323 = 667 both hold.\\n- Provenance: the two products were produced by separate worker assignments (78a63b2459be470189639b61fcda82d9 → 323; ab868ca45c6e47eaa919c01b24cffb57 → 667), each with its own evidence artifact (17x19-evidence.md, compute-23x29-evidence.md), and the report artifact capacity-summary.md (id 62d3937a6d659861b6cc11a611f2f6be) contains both calculations and the total with no extraneous claims. Ledger execution_evidence confirms calculate/save_artifact/send_handoff tool use by each worker and the writer, with handoffs routed to the writer and then to this verifier. No web access was used or needed.\",\"issues\":[]}",
+      "assigned_agent": "verifier-46c6a9",
+      "attempt": 1,
+      "output": "{\"accepted\":true,\"result\":\"# Launch Plan \u2014 Fictional AI Customer-Support Assistant\\n\\n**Status label: ALL acceptance tests below are PROPOSED, NOT EXECUTED.** No production testing occurred. All scenario facts are assumptions.\\n\\n## (a) Prioritized Pre-Launch Checks\\n1. **Safety gates (P0):** human-approval gates for refunds, account changes, data deletion; assistant drafts only.\\n2. **Injection defense (P0):** instruction hierarchy (system > policy > user > retrieved content); retrieved text treated as data; input/output filters; tool allowlist (read-only KB search, ticket lookup) \u2014 no code/network tools.\\n3. **Privacy (P0):** PII minimization at ingestion; card/ID redaction before logging; 30-day retention with deletion jobs; RBAC + audited access.\\n4. **Reliability (P1):** retry/timeout policy (2 retries, backoff 1s/3s, 10s per-call, 30s turn budget, no retry on 4xx); degradation to uncertainty disclosure + human handoff + ticket with transcript.\\n5. **Rollback (P1):** feature-flag kill-switch to human-only; config rollback within 5 min.\\n6. **Escalation (P2):** triggers = repeated failure, low confidence, user request, billing/legal/account-deletion, 2 failed retries.\\n\\n## (b) Measurable Stop/Go Criteria (tied to worker acceptance tests)\\n**GO only if all P0 pass; any P0 failure = STOP.**\\n- Injection: 0/50 payloads trigger unauthorized tool calls; 100% out-of-allowlist requests blocked.\\n- Privacy: 0 PII tokens in 100 sampled logs; 100% of records deleted within 24h of the 30-day window.\\n- Approval: 0/20 refund/account/deletion requests execute without human approval.\\n- Reliability: 100% of simulated 5xx sessions fall back to human within 30s; retries \u22642 with no duplicate tickets on 10s timeout; 100% of low-confidence answers offer handoff.\\n- Rollback: kill-switch reverts to human-only within 60s; backlog breach emits callback offer in 100% of sessions.\\n\\n**Partial GO:** P1/P2 misses with documented mitigations and a rollback path. **STOP:** any P0 miss, or kill-switch exceeding 60s.\\n\\n## (c) Assumptions\\n- All scenario facts are **fictional**; every figure, threshold, and failure mode is an assumption.\\n- **No production testing occurred**; no real integrations, customer data, or external actions were used.\\n- Acceptance tests are **proposed, not executed**; results are unverified targets, not evidence.\\n- Retention (30 days), retry counts, and timeouts are illustrative defaults pending real validation.\\n\\n## (d) Test Status\\nAll acceptance tests are **proposed, not executed**. This plan is a readiness checklist, not a test report.\\n\\n---\\n\\n**Verification notes (evidence-based):**\\n- Ledger confirms exactly 3 worker assignments (reliability, security/privacy, synthesizer) plus planner and this verifier; no extra review worker. Tool counts: reliability worker read_context 1 / save_artifact 1 / send_handoff 1; security worker same; synthesizer read_artifact 2 / save_artifact 1 / send_handoff 1 \u2014 matching the required dependency reads and single handoff to the verifier.\\n- Artifacts read in full: reliability-recovery.md (1316 chars, 5 proposed tests), security-privacy-approval.md (1116 chars, 5 proposed tests), launch-plan.md (2498 chars). Both worker artifacts are under 160 words; launch-plan.md is under 450 words.\\n- Handoff targets match the dependency graph: both workers \u2192 synthesizer; synthesizer \u2192 verifier. No redundant handoffs.\\n- All acceptance tests are explicitly labeled \\\"proposed, not executed\\\"; assumptions section states facts are fictional and no production testing occurred. No web research, customer data, real integrations, or arithmetic demonstration present.\",\"issues\":[]}",
       "error": null,
-      "created_at": "2026-09-14T14:39:18.235801+00:00"
+      "created_at": "2026-09-14T15:09:25.389086+00:00"
     }
   ],
   "events": [
     {
-      "id": 773,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "id": 899,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
       "item_id": null,
       "agent": "coordinator",
       "kind": "created",
       "message": "Task queued. Capacity 2 includes coordinator, workers, and verifier.",
-      "created_at": "2026-09-14T14:39:15.328367+00:00"
+      "created_at": "2026-09-14T15:09:21.171304+00:00"
     },
     {
-      "id": 774,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "id": 900,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
       "item_id": null,
       "agent": "coordinator",
       "kind": "resource_assessment",
-      "message": "Manual allocation: focused task; 60,000 tokens allocated, ceiling 60,000; agent ceiling 2.",
-      "created_at": "2026-09-14T14:39:15.328420+00:00"
+      "message": "Manual allocation: standard task; 100,000 tokens allocated, ceiling 100,000; agent ceiling 2.",
+      "created_at": "2026-09-14T15:09:21.171346+00:00"
     },
     {
-      "id": 775,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "8b049729172a4b48aa466a9c73fb64d9",
-      "agent": "planner-8b0497",
+      "id": 901,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "db077f662fb648e2b443132cd9b37da5",
+      "agent": "planner-db077f",
       "kind": "assigned",
-      "message": "Plan the assignment · attempt 1",
-      "created_at": "2026-09-14T14:39:15.445192+00:00"
+      "message": "Plan the assignment \u00b7 attempt 1",
+      "created_at": "2026-09-14T15:09:21.586392+00:00"
     },
     {
-      "id": 776,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "8b049729172a4b48aa466a9c73fb64d9",
-      "agent": "planner-8b0497",
+      "id": 902,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "db077f662fb648e2b443132cd9b37da5",
+      "agent": "planner-db077f",
       "kind": "completed",
       "message": "Plan the assignment completed; output saved.",
-      "created_at": "2026-09-14T14:39:18.235663+00:00"
+      "created_at": "2026-09-14T15:09:25.388927+00:00"
     },
     {
-      "id": 777,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "id": 903,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
       "item_id": null,
       "agent": "coordinator",
       "kind": "plan",
       "message": "Saved dependency plan with 3 worker assignments and an independent verifier.",
-      "created_at": "2026-09-14T14:39:18.235814+00:00"
+      "created_at": "2026-09-14T15:09:25.389124+00:00"
     },
     {
-      "id": 778,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "78a63b2459be470189639b61fcda82d9",
-      "agent": "worker-78a63b",
+      "id": 904,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "fee225ea67694615a1fc83203c81cade",
+      "agent": "worker-fee225",
       "kind": "assigned",
-      "message": "Compute 17 × 19 · attempt 1",
-      "created_at": "2026-09-14T14:39:18.472698+00:00"
+      "message": "Reliability and recovery readiness \u00b7 attempt 1",
+      "created_at": "2026-09-14T15:09:25.619450+00:00"
     },
     {
-      "id": 779,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
-      "agent": "worker-ab868c",
+      "id": 905,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "8fe4a616d5874f7a9f2198bc96e5b7e1",
+      "agent": "worker-8fe4a6",
       "kind": "assigned",
-      "message": "Compute 23 × 29 · attempt 1",
-      "created_at": "2026-09-14T14:39:18.476689+00:00"
+      "message": "Security, prompt injection, privacy, human approval \u00b7 attempt 1",
+      "created_at": "2026-09-14T15:09:25.623506+00:00"
     },
     {
-      "id": 780,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
+      "id": 906,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "8fe4a616d5874f7a9f2198bc96e5b7e1",
       "agent": "coordinator",
       "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 21865 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:39:23.405823+00:00"
+      "message": "Extended assignment allowance to 20312 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T15:09:29.341908+00:00"
     },
     {
-      "id": 781,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
+      "id": 907,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "fee225ea67694615a1fc83203c81cade",
       "agent": "coordinator",
       "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 22030 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:39:23.411085+00:00"
+      "message": "Extended assignment allowance to 20488 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T15:09:29.498810+00:00"
     },
     {
-      "id": 782,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "78a63b2459be470189639b61fcda82d9",
+      "id": 908,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "8fe4a616d5874f7a9f2198bc96e5b7e1",
       "agent": "coordinator",
       "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 22266 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:39:24.054224+00:00"
+      "message": "Extended assignment allowance to 24616 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T15:09:31.054908+00:00"
     },
     {
-      "id": 783,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "78a63b2459be470189639b61fcda82d9",
+      "id": 909,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "fee225ea67694615a1fc83203c81cade",
       "agent": "coordinator",
       "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 22431 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:39:24.066781+00:00"
+      "message": "Extended assignment allowance to 24686 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T15:09:31.229721+00:00"
     },
     {
-      "id": 784,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "worker-ab868c",
+      "id": 910,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "16998c19432841fcb39e56c1478e1fea",
+      "agent": "worker-8fe4a6",
       "kind": "handoff",
-      "message": "23 × 29 = 667 (verified). Method: 23 × 30 − 23 = 690 − 23 = 667. Self-check: 667 ÷ 23 = 29 and 667 ÷ 29 = 23 exactly; residual 23×29 − 667 = 0. Evidence artifact: compute-23x29-evidence.md. Sibling 17 × 19 = 323 (from the other worker) → combined total 667 + 323 = 990.",
-      "created_at": "2026-09-14T14:39:25.431339+00:00"
+      "message": "Security/privacy artifact staged: security-privacy-approval.md (sha256 1afc6cf9...). Key points for launch-plan.md: instruction hierarchy + retrieved-content-as-data; input/output injection filters; tool allowlist (read-only KB/ticket lookup only); PII minimization, redaction before logging, assumed 30-day retention with deletion jobs, RBAC + audit; human-approval gates for refunds, account changes, data deletion (assistant drafts only). 5 acceptance tests, all labeled \"proposed (not executed)\": 0/50 injection payloads trigger unauthorized tool calls; 100% out-of-allowlist tool requests blocked; 0 PII tokens in 100 sampled logs; 0/20 high-risk requests execute without human approval; 100% of records deleted within 24h of the 30-day window. All facts are assumptions for a fictional scenario.",
+      "created_at": "2026-09-14T15:09:32.756489+00:00"
     },
     {
-      "id": 785,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
-      "agent": "worker-ab868c",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:39:25.431354+00:00"
-    },
-    {
-      "id": 786,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
-      "agent": "worker-ab868c",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:39:25.431363+00:00"
-    },
-    {
-      "id": 787,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
-      "agent": "worker-ab868c",
+      "id": 911,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "8fe4a616d5874f7a9f2198bc96e5b7e1",
+      "agent": "worker-8fe4a6",
       "kind": "tool",
       "message": "Executed read_context.",
-      "created_at": "2026-09-14T14:39:25.431371+00:00"
+      "created_at": "2026-09-14T15:09:32.756504+00:00"
     },
     {
-      "id": 788,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
-      "agent": "worker-ab868c",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:39:25.431378+00:00"
-    },
-    {
-      "id": 789,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
-      "agent": "worker-ab868c",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:39:25.431385+00:00"
-    },
-    {
-      "id": 790,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
-      "agent": "worker-ab868c",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:39:25.431393+00:00"
-    },
-    {
-      "id": 791,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
-      "agent": "worker-ab868c",
+      "id": 912,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "8fe4a616d5874f7a9f2198bc96e5b7e1",
+      "agent": "worker-8fe4a6",
       "kind": "tool",
       "message": "Executed save_artifact.",
-      "created_at": "2026-09-14T14:39:25.431400+00:00"
+      "created_at": "2026-09-14T15:09:32.756513+00:00"
     },
     {
-      "id": 792,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
-      "agent": "worker-ab868c",
+      "id": 913,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "8fe4a616d5874f7a9f2198bc96e5b7e1",
+      "agent": "worker-8fe4a6",
       "kind": "tool",
       "message": "Executed send_handoff.",
-      "created_at": "2026-09-14T14:39:25.431406+00:00"
+      "created_at": "2026-09-14T15:09:32.756520+00:00"
     },
     {
-      "id": 793,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
-      "agent": "worker-ab868c",
+      "id": 914,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "8fe4a616d5874f7a9f2198bc96e5b7e1",
+      "agent": "worker-8fe4a6",
       "kind": "completed",
-      "message": "Compute 23 × 29 completed; output saved.",
-      "created_at": "2026-09-14T14:39:25.431414+00:00"
+      "message": "Security, prompt injection, privacy, human approval completed; output saved.",
+      "created_at": "2026-09-14T15:09:32.756528+00:00"
     },
     {
-      "id": 794,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "worker-395a2d",
-      "kind": "assigned",
-      "message": "Write capacity-summary.md · attempt 1",
-      "created_at": "2026-09-14T14:39:25.590220+00:00"
-    },
-    {
-      "id": 795,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "worker-78a63b",
+      "id": 915,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "16998c19432841fcb39e56c1478e1fea",
+      "agent": "worker-fee225",
       "kind": "handoff",
-      "message": "17 × 19 = 323 (verified). Method: 17 × 20 − 17 = 340 − 17 = 323. Self-check: 323 ÷ 17 = 19 and 323 ÷ 19 = 17, both exact. Combined cross-check: 17*19 + 23*29 = 990 (single-expression tool result). Use 323 for the 17 × 19 term in capacity-summary.md; the 23 × 29 term (667) comes from sibling assignment ab868ca45c6e47eaa919c01b24cffb57. Evidence artifact: 17x19-evidence.md.",
-      "created_at": "2026-09-14T14:39:26.487070+00:00"
+      "message": "Reliability artifact staged: reliability-recovery.md (sha256 8739d96c...). Key inputs for launch-plan.md: failure modes = model/API timeout, hallucinated answer, tool/CRM outage, queue backlog; degradation = uncertainty disclosure + human handoff + ticket with transcript, human-only routing when CRM unreachable; retry/timeout = 2 retries, backoff 1s/3s, 10s per-call, 30s turn budget, no retry on 4xx; escalation = repeated failure, low confidence, user request, billing/legal/account-deletion, 2 failed retries; rollback = feature-flag kill-switch to human-only within 60s, config rollback within 5 min. 5 acceptance tests, all labeled \"proposed (not executed)\".",
+      "created_at": "2026-09-14T15:09:33.019756+00:00"
     },
     {
-      "id": 796,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "78a63b2459be470189639b61fcda82d9",
-      "agent": "worker-78a63b",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:39:26.487084+00:00"
-    },
-    {
-      "id": 797,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "78a63b2459be470189639b61fcda82d9",
-      "agent": "worker-78a63b",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:39:26.487118+00:00"
-    },
-    {
-      "id": 798,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "78a63b2459be470189639b61fcda82d9",
-      "agent": "worker-78a63b",
+      "id": 916,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "fee225ea67694615a1fc83203c81cade",
+      "agent": "worker-fee225",
       "kind": "tool",
       "message": "Executed read_context.",
-      "created_at": "2026-09-14T14:39:26.487133+00:00"
+      "created_at": "2026-09-14T15:09:33.019770+00:00"
     },
     {
-      "id": 799,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "78a63b2459be470189639b61fcda82d9",
-      "agent": "worker-78a63b",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:39:26.487143+00:00"
-    },
-    {
-      "id": 800,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "78a63b2459be470189639b61fcda82d9",
-      "agent": "worker-78a63b",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:39:26.487150+00:00"
-    },
-    {
-      "id": 801,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "78a63b2459be470189639b61fcda82d9",
-      "agent": "worker-78a63b",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:39:26.487157+00:00"
-    },
-    {
-      "id": 802,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "78a63b2459be470189639b61fcda82d9",
-      "agent": "worker-78a63b",
+      "id": 917,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "fee225ea67694615a1fc83203c81cade",
+      "agent": "worker-fee225",
       "kind": "tool",
       "message": "Executed save_artifact.",
-      "created_at": "2026-09-14T14:39:26.487164+00:00"
+      "created_at": "2026-09-14T15:09:33.019778+00:00"
     },
     {
-      "id": 803,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "78a63b2459be470189639b61fcda82d9",
-      "agent": "worker-78a63b",
+      "id": 918,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "fee225ea67694615a1fc83203c81cade",
+      "agent": "worker-fee225",
       "kind": "tool",
       "message": "Executed send_handoff.",
-      "created_at": "2026-09-14T14:39:26.487171+00:00"
+      "created_at": "2026-09-14T15:09:33.019785+00:00"
     },
     {
-      "id": 804,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "78a63b2459be470189639b61fcda82d9",
-      "agent": "worker-78a63b",
+      "id": 919,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "fee225ea67694615a1fc83203c81cade",
+      "agent": "worker-fee225",
       "kind": "completed",
-      "message": "Compute 17 × 19 completed; output saved.",
-      "created_at": "2026-09-14T14:39:26.487179+00:00"
+      "message": "Reliability and recovery readiness completed; output saved.",
+      "created_at": "2026-09-14T15:09:33.019793+00:00"
     },
     {
-      "id": 805,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "id": 920,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "16998c19432841fcb39e56c1478e1fea",
+      "agent": "worker-16998c",
+      "kind": "assigned",
+      "message": "Synthesize launch-plan.md \u00b7 attempt 1",
+      "created_at": "2026-09-14T15:09:33.231611+00:00"
+    },
+    {
+      "id": 921,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "16998c19432841fcb39e56c1478e1fea",
       "agent": "coordinator",
       "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 20088 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:39:28.284860+00:00"
+      "message": "Extended assignment allowance to 26758 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T15:09:38.066700+00:00"
     },
     {
-      "id": 806,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "id": 922,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "16998c19432841fcb39e56c1478e1fea",
       "agent": "coordinator",
       "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 20219 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:39:28.290717+00:00"
+      "message": "Extended assignment allowance to 32049 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T15:09:40.507586+00:00"
     },
     {
-      "id": 807,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "coordinator",
-      "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 20352 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:39:28.296181+00:00"
-    },
-    {
-      "id": 808,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "coordinator",
-      "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 24732 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:39:29.852354+00:00"
-    },
-    {
-      "id": 809,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "coordinator",
-      "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 24865 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:39:29.858319+00:00"
-    },
-    {
-      "id": 810,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "coordinator",
-      "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 25001 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:39:29.863641+00:00"
-    },
-    {
-      "id": 811,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "coordinator",
-      "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 25134 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:39:29.869043+00:00"
-    },
-    {
-      "id": 812,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "coordinator",
-      "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 25267 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:39:29.874446+00:00"
-    },
-    {
-      "id": 813,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "coordinator",
-      "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 29711 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:39:31.193611+00:00"
-    },
-    {
-      "id": 814,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "coordinator",
-      "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 34551 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:39:33.144632+00:00"
-    },
-    {
-      "id": 815,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "agent": "worker-395a2d",
+      "id": 923,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "46c6a9d547274dbe9c3f6c931433ed1b",
+      "agent": "worker-16998c",
       "kind": "handoff",
-      "message": "capacity-summary.md staged (sha256 2ce3f8b5cfd28453e61a09630f0a6fcc912cb1912f65e5649e3da68cac631a8e). Contents: 17 × 19 = 323; 23 × 29 = 667; total 323 + 667 = 990; note that the two products came from independent assignments. No other claims or external references. Arithmetic tool-verified: 17*19=323, 23*29=667, 323+667=990; cross-checks 323/17=19, 323/19=17, 990-667=323, 990-323=667. Source for 23 × 29: artifact compute-23x29-evidence.md (667).",
-      "created_at": "2026-09-14T14:39:35.370194+00:00"
+      "message": "launch-plan.md staged (sha256 a9ee567d...). Synthesized from reliability-recovery.md (8739d96c...) and security-privacy-approval.md (1afc6cf9...). Contains: (a) prioritized P0/P1/P2 checks, (b) stop/go criteria tied to both workers' 10 acceptance tests, (c) Assumptions section stating all facts fictional and no production testing, (d) explicit \"proposed, not executed\" label. Stop/go: GO only if all P0 pass; any P0 miss or kill-switch >60s = STOP; P1/P2 misses = partial GO with mitigations. All tests labeled proposed, not executed.",
+      "created_at": "2026-09-14T15:09:42.930775+00:00"
     },
     {
-      "id": 816,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "worker-395a2d",
-      "kind": "tool",
-      "message": "Executed read_context.",
-      "created_at": "2026-09-14T14:39:35.370208+00:00"
-    },
-    {
-      "id": 817,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "worker-395a2d",
+      "id": 924,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "16998c19432841fcb39e56c1478e1fea",
+      "agent": "worker-16998c",
       "kind": "tool",
       "message": "Executed read_artifact.",
-      "created_at": "2026-09-14T14:39:35.370216+00:00"
+      "created_at": "2026-09-14T15:09:42.930788+00:00"
     },
     {
-      "id": 818,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "worker-395a2d",
+      "id": 925,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "16998c19432841fcb39e56c1478e1fea",
+      "agent": "worker-16998c",
       "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:39:35.370223+00:00"
+      "message": "Executed read_artifact.",
+      "created_at": "2026-09-14T15:09:42.930796+00:00"
     },
     {
-      "id": 819,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "worker-395a2d",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:39:35.370232+00:00"
-    },
-    {
-      "id": 820,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "worker-395a2d",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:39:35.370239+00:00"
-    },
-    {
-      "id": 821,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "worker-395a2d",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:39:35.370246+00:00"
-    },
-    {
-      "id": 822,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "worker-395a2d",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:39:35.370253+00:00"
-    },
-    {
-      "id": 823,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "worker-395a2d",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:39:35.370260+00:00"
-    },
-    {
-      "id": 824,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "worker-395a2d",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:39:35.370269+00:00"
-    },
-    {
-      "id": 825,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "worker-395a2d",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:39:35.370276+00:00"
-    },
-    {
-      "id": 826,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "worker-395a2d",
+      "id": 926,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "16998c19432841fcb39e56c1478e1fea",
+      "agent": "worker-16998c",
       "kind": "tool",
       "message": "Executed save_artifact.",
-      "created_at": "2026-09-14T14:39:35.370283+00:00"
+      "created_at": "2026-09-14T15:09:42.930803+00:00"
     },
     {
-      "id": 827,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "worker-395a2d",
+      "id": 927,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "16998c19432841fcb39e56c1478e1fea",
+      "agent": "worker-16998c",
       "kind": "tool",
       "message": "Executed send_handoff.",
-      "created_at": "2026-09-14T14:39:35.370289+00:00"
+      "created_at": "2026-09-14T15:09:42.930811+00:00"
     },
     {
-      "id": 828,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "agent": "worker-395a2d",
+      "id": 928,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "16998c19432841fcb39e56c1478e1fea",
+      "agent": "worker-16998c",
       "kind": "completed",
-      "message": "Write capacity-summary.md completed; output saved.",
-      "created_at": "2026-09-14T14:39:35.370296+00:00"
+      "message": "Synthesize launch-plan.md completed; output saved.",
+      "created_at": "2026-09-14T15:09:42.930818+00:00"
     },
     {
-      "id": 829,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "agent": "verifier-b5b395",
+      "id": 929,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "46c6a9d547274dbe9c3f6c931433ed1b",
+      "agent": "verifier-46c6a9",
       "kind": "assigned",
-      "message": "Independently verify deliverables · attempt 1",
-      "created_at": "2026-09-14T14:39:35.677498+00:00"
+      "message": "Independently verify deliverables \u00b7 attempt 1",
+      "created_at": "2026-09-14T15:09:43.312032+00:00"
     },
     {
-      "id": 830,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "id": 930,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "46c6a9d547274dbe9c3f6c931433ed1b",
       "agent": "coordinator",
       "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 15814 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:39:35.728618+00:00"
+      "message": "Extended assignment allowance to 24309 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T15:09:44.737211+00:00"
     },
     {
-      "id": 831,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "id": 931,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "46c6a9d547274dbe9c3f6c931433ed1b",
       "agent": "coordinator",
       "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 18759 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:39:37.955423+00:00"
+      "message": "Extended assignment allowance to 25699 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T15:09:44.743548+00:00"
     },
     {
-      "id": 832,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "agent": "verifier-b5b395",
-      "kind": "failed",
-      "message": "Remaining task token budget cannot safely cover a useful tool evidence chunk.",
-      "created_at": "2026-09-14T14:39:37.974633+00:00"
-    },
-    {
-      "id": 833,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": null,
-      "agent": "coordinator",
-      "kind": "budget_exhausted",
-      "message": "Independently verify deliverables: Remaining task token budget cannot safely cover a useful tool evidence chunk.",
-      "created_at": "2026-09-14T14:39:37.974812+00:00"
-    },
-    {
-      "id": 834,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": null,
-      "agent": "owner",
-      "kind": "budget_increased",
-      "message": "Owner increased token budget from 60000 to 100000; resumed 1 unfinished assignments. Completed work and usage retained.",
-      "created_at": "2026-09-14T14:41:36.373685+00:00"
-    },
-    {
-      "id": 835,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "agent": "verifier-b5b395",
-      "kind": "assigned",
-      "message": "Independently verify deliverables · attempt 2",
-      "created_at": "2026-09-14T14:41:36.774917+00:00"
-    },
-    {
-      "id": 836,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": null,
-      "agent": "coordinator",
-      "kind": "pause",
-      "message": "Pause requested; in-flight assignments may finish, no new assignments start.",
-      "created_at": "2026-09-14T14:41:37.429254+00:00"
-    },
-    {
-      "id": 837,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "id": 932,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "46c6a9d547274dbe9c3f6c931433ed1b",
       "agent": "coordinator",
       "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 26111 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:41:38.805346+00:00"
+      "message": "Extended assignment allowance to 28485 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T15:09:44.749709+00:00"
     },
     {
-      "id": 838,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "id": 933,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "46c6a9d547274dbe9c3f6c931433ed1b",
       "agent": "coordinator",
       "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 27429 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:41:38.810988+00:00"
+      "message": "Extended assignment allowance to 28488 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T15:09:44.754009+00:00"
     },
     {
-      "id": 839,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "agent": "coordinator",
-      "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 28554 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:41:38.816886+00:00"
-    },
-    {
-      "id": 840,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "agent": "coordinator",
-      "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 28715 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:41:38.823189+00:00"
-    },
-    {
-      "id": 841,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "agent": "coordinator",
-      "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 28844 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:41:38.828660+00:00"
-    },
-    {
-      "id": 842,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "agent": "coordinator",
-      "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 28975 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:41:38.834553+00:00"
-    },
-    {
-      "id": 843,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "agent": "coordinator",
-      "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 29110 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:41:38.840146+00:00"
-    },
-    {
-      "id": 844,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "agent": "coordinator",
-      "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 29241 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:41:38.845762+00:00"
-    },
-    {
-      "id": 845,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "agent": "coordinator",
-      "kind": "budget_allocation",
-      "message": "Extended assignment allowance to 29372 tokens using unreserved task budget.",
-      "created_at": "2026-09-14T14:41:38.851084+00:00"
-    },
-    {
-      "id": 846,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": null,
-      "agent": "coordinator",
-      "kind": "resume",
-      "message": "Task resume requested.",
-      "created_at": "2026-09-14T14:41:39.533142+00:00"
-    },
-    {
-      "id": 847,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "agent": "verifier-b5b395",
+      "id": 934,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "46c6a9d547274dbe9c3f6c931433ed1b",
+      "agent": "verifier-46c6a9",
       "kind": "tool",
       "message": "Executed read_artifact.",
-      "created_at": "2026-09-14T14:41:41.664040+00:00"
+      "created_at": "2026-09-14T15:09:48.945567+00:00"
     },
     {
-      "id": 848,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "agent": "verifier-b5b395",
+      "id": 935,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "46c6a9d547274dbe9c3f6c931433ed1b",
+      "agent": "verifier-46c6a9",
       "kind": "tool",
       "message": "Executed read_artifact.",
-      "created_at": "2026-09-14T14:41:41.664062+00:00"
+      "created_at": "2026-09-14T15:09:48.945587+00:00"
     },
     {
-      "id": 849,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "agent": "verifier-b5b395",
+      "id": 936,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "46c6a9d547274dbe9c3f6c931433ed1b",
+      "agent": "verifier-46c6a9",
       "kind": "tool",
       "message": "Executed read_artifact.",
-      "created_at": "2026-09-14T14:41:41.664214+00:00"
+      "created_at": "2026-09-14T15:09:48.945596+00:00"
     },
     {
-      "id": 850,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "agent": "verifier-b5b395",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:41:41.664230+00:00"
-    },
-    {
-      "id": 851,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "agent": "verifier-b5b395",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:41:41.664241+00:00"
-    },
-    {
-      "id": 852,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "agent": "verifier-b5b395",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:41:41.664249+00:00"
-    },
-    {
-      "id": 853,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "agent": "verifier-b5b395",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:41:41.664256+00:00"
-    },
-    {
-      "id": 854,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "agent": "verifier-b5b395",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:41:41.664263+00:00"
-    },
-    {
-      "id": 855,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "agent": "verifier-b5b395",
-      "kind": "tool",
-      "message": "Executed calculate.",
-      "created_at": "2026-09-14T14:41:41.664270+00:00"
-    },
-    {
-      "id": 856,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "agent": "verifier-b5b395",
+      "id": 937,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "46c6a9d547274dbe9c3f6c931433ed1b",
+      "agent": "verifier-46c6a9",
       "kind": "completed",
       "message": "Independently verify deliverables completed; output saved.",
-      "created_at": "2026-09-14T14:41:41.664278+00:00"
+      "created_at": "2026-09-14T15:09:48.945603+00:00"
     },
     {
-      "id": 857,
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "agent": "verifier-b5b395",
+      "id": 938,
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "item_id": "46c6a9d547274dbe9c3f6c931433ed1b",
+      "agent": "verifier-46c6a9",
       "kind": "verified",
       "message": "Independent verification accepted the saved deliverable.",
-      "created_at": "2026-09-14T14:41:41.664448+00:00"
+      "created_at": "2026-09-14T15:09:48.945762+00:00"
     }
   ],
   "handoffs": [
     {
-      "id": 17,
-      "source_item_id": "ab868ca45c6e47eaa919c01b24cffb57",
-      "target_item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "message": "23 × 29 = 667 (verified). Method: 23 × 30 − 23 = 690 − 23 = 667. Self-check: 667 ÷ 23 = 29 and 667 ÷ 29 = 23 exactly; residual 23×29 − 667 = 0. Evidence artifact: compute-23x29-evidence.md. Sibling 17 × 19 = 323 (from the other worker) → combined total 667 + 323 = 990.",
-      "created_at": "2026-09-14T14:39:25.431308+00:00"
+      "id": 22,
+      "source_item_id": "8fe4a616d5874f7a9f2198bc96e5b7e1",
+      "target_item_id": "16998c19432841fcb39e56c1478e1fea",
+      "message": "Security/privacy artifact staged: security-privacy-approval.md (sha256 1afc6cf9...). Key points for launch-plan.md: instruction hierarchy + retrieved-content-as-data; input/output injection filters; tool allowlist (read-only KB/ticket lookup only); PII minimization, redaction before logging, assumed 30-day retention with deletion jobs, RBAC + audit; human-approval gates for refunds, account changes, data deletion (assistant drafts only). 5 acceptance tests, all labeled \"proposed (not executed)\": 0/50 injection payloads trigger unauthorized tool calls; 100% out-of-allowlist tool requests blocked; 0 PII tokens in 100 sampled logs; 0/20 high-risk requests execute without human approval; 100% of records deleted within 24h of the 30-day window. All facts are assumptions for a fictional scenario.",
+      "created_at": "2026-09-14T15:09:32.756459+00:00"
     },
     {
-      "id": 18,
-      "source_item_id": "78a63b2459be470189639b61fcda82d9",
-      "target_item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "message": "17 × 19 = 323 (verified). Method: 17 × 20 − 17 = 340 − 17 = 323. Self-check: 323 ÷ 17 = 19 and 323 ÷ 19 = 17, both exact. Combined cross-check: 17*19 + 23*29 = 990 (single-expression tool result). Use 323 for the 17 × 19 term in capacity-summary.md; the 23 × 29 term (667) comes from sibling assignment ab868ca45c6e47eaa919c01b24cffb57. Evidence artifact: 17x19-evidence.md.",
-      "created_at": "2026-09-14T14:39:26.487054+00:00"
+      "id": 23,
+      "source_item_id": "fee225ea67694615a1fc83203c81cade",
+      "target_item_id": "16998c19432841fcb39e56c1478e1fea",
+      "message": "Reliability artifact staged: reliability-recovery.md (sha256 8739d96c...). Key inputs for launch-plan.md: failure modes = model/API timeout, hallucinated answer, tool/CRM outage, queue backlog; degradation = uncertainty disclosure + human handoff + ticket with transcript, human-only routing when CRM unreachable; retry/timeout = 2 retries, backoff 1s/3s, 10s per-call, 30s turn budget, no retry on 4xx; escalation = repeated failure, low confidence, user request, billing/legal/account-deletion, 2 failed retries; rollback = feature-flag kill-switch to human-only within 60s, config rollback within 5 min. 5 acceptance tests, all labeled \"proposed (not executed)\".",
+      "created_at": "2026-09-14T15:09:33.019741+00:00"
     },
     {
-      "id": 19,
-      "source_item_id": "395a2de93df14c15ac6ffccdd94aeb34",
-      "target_item_id": "b5b395430fd744f7b371ca40dbfa49f6",
-      "message": "capacity-summary.md staged (sha256 2ce3f8b5cfd28453e61a09630f0a6fcc912cb1912f65e5649e3da68cac631a8e). Contents: 17 × 19 = 323; 23 × 29 = 667; total 323 + 667 = 990; note that the two products came from independent assignments. No other claims or external references. Arithmetic tool-verified: 17*19=323, 23*29=667, 323+667=990; cross-checks 323/17=19, 323/19=17, 990-667=323, 990-323=667. Source for 23 × 29: artifact compute-23x29-evidence.md (667).",
-      "created_at": "2026-09-14T14:39:35.370177+00:00"
+      "id": 24,
+      "source_item_id": "16998c19432841fcb39e56c1478e1fea",
+      "target_item_id": "46c6a9d547274dbe9c3f6c931433ed1b",
+      "message": "launch-plan.md staged (sha256 a9ee567d...). Synthesized from reliability-recovery.md (8739d96c...) and security-privacy-approval.md (1afc6cf9...). Contains: (a) prioritized P0/P1/P2 checks, (b) stop/go criteria tied to both workers' 10 acceptance tests, (c) Assumptions section stating all facts fictional and no production testing, (d) explicit \"proposed, not executed\" label. Stop/go: GO only if all P0 pass; any P0 miss or kill-switch >60s = STOP; P1/P2 misses = partial GO with mitigations. All tests labeled proposed, not executed.",
+      "created_at": "2026-09-14T15:09:42.930762+00:00"
     }
   ],
   "artifacts": [
     {
-      "id": "76664fddb76727ab2a624774cee7409f",
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "name": "compute-23x29-evidence.md",
+      "id": "398b7a76d66f57f977c7ab291ea95d4e",
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "name": "security-privacy-approval.md",
       "media_type": "text/markdown",
-      "size": 843,
-      "created_at": "2026-09-14T14:39:25.431170+00:00"
+      "size": 1116,
+      "created_at": "2026-09-14T15:09:32.756318+00:00"
     },
     {
-      "id": "eccee6846fb4542845d6591726091183",
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "name": "ab868ca4-work.md",
+      "id": "ed97848c3a9d7a1abfa5f4869a2efed7",
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "name": "8fe4a616-work.md",
       "media_type": "text/markdown",
-      "size": 916,
-      "created_at": "2026-09-14T14:39:25.431453+00:00"
+      "size": 624,
+      "created_at": "2026-09-14T15:09:32.756564+00:00"
     },
     {
-      "id": "21436fc9187430c6d751018559783be4",
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "name": "17x19-evidence.md",
+      "id": "f82685028497e8e7c84e42417af7bda4",
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "name": "reliability-recovery.md",
       "media_type": "text/markdown",
-      "size": 1039,
-      "created_at": "2026-09-14T14:39:26.487020+00:00"
+      "size": 1318,
+      "created_at": "2026-09-14T15:09:33.019694+00:00"
     },
     {
-      "id": "3ea8899a359b9386475bf96d89c4b5cf",
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "name": "78a63b24-work.md",
+      "id": "b52c44067960d7c9270b9b96315a8452",
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "name": "fee225ea-work.md",
       "media_type": "text/markdown",
-      "size": 1136,
-      "created_at": "2026-09-14T14:39:26.487211+00:00"
+      "size": 712,
+      "created_at": "2026-09-14T15:09:33.019817+00:00"
     },
     {
-      "id": "62d3937a6d659861b6cc11a611f2f6be",
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "name": "capacity-summary.md",
+      "id": "3adfd180aa2e26006dc1857dcaf38d4b",
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "name": "launch-plan.md",
       "media_type": "text/markdown",
-      "size": 293,
-      "created_at": "2026-09-14T14:39:35.370139+00:00"
+      "size": 2504,
+      "created_at": "2026-09-14T15:09:42.930726+00:00"
     },
     {
-      "id": "725039e98bdaf468b53056c69a20cbc4",
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
-      "name": "395a2de9-work.md",
+      "id": "e21725a7212a1d5e2687c8200d9fb945",
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
+      "name": "16998c19-work.md",
       "media_type": "text/markdown",
-      "size": 1056,
-      "created_at": "2026-09-14T14:39:35.370323+00:00"
+      "size": 1306,
+      "created_at": "2026-09-14T15:09:42.930842+00:00"
     },
     {
-      "id": "89c08c8fcb4990dfafd6140fe5d3a816",
-      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "id": "beed52d93fbdde91d7c9a182d1fe8542",
+      "task_id": "b1010760c4984717b3aa16100eb302aa",
       "name": "result.md",
       "media_type": "text/markdown",
-      "size": 1461,
-      "created_at": "2026-09-14T14:41:41.664355+00:00"
+      "size": 3599,
+      "created_at": "2026-09-14T15:09:48.945675+00:00"
     }
   ]
 }

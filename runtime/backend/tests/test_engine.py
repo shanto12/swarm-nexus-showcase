@@ -11,7 +11,7 @@ from swarm.store import Store
 
 class EvidenceProvider:
     """Deterministic fault-injection fixture, never used by the application."""
-    def __init__(self, reject_once=False, delay=0.005):
+    def __init__(self, reject_once=False, delay=0.005, execution_barrier=None):
         self.active = 0
         self.maximum = 0
         self.by_task = {}
@@ -20,6 +20,7 @@ class EvidenceProvider:
         self.verifications = 0
         self.reject_once = reject_once
         self.delay = delay
+        self.execution_barrier = execution_barrier
 
     async def execute(self, role, prompt, context, tools_enabled=True):
         tid = context["task_id"]
@@ -29,6 +30,8 @@ class EvidenceProvider:
         self.max_by_task[tid] = max(self.max_by_task.get(tid, 0), self.by_task[tid])
         self.calls.append((role, context))
         try:
+            if self.execution_barrier is not None:
+                await self.execution_barrier(role, context)
             await asyncio.sleep(self.delay)
             if role == "planner":
                 content = json.dumps({"items": [
@@ -131,7 +134,18 @@ def test_budget_increase_preserves_paid_checkpoint_and_retry_limit(tmp_path):
 @pytest.mark.asyncio
 async def test_pool_fanout_dependencies_repair_and_global_limit(tmp_path):
     store = Store(tmp_path / "state.db")
-    provider = EvidenceProvider(reject_once=True, delay=0.05)
+    fanout_ready = asyncio.Event()
+    fanout_entered = 0
+
+    async def overlap_independent_workers(role, context):
+        nonlocal fanout_entered
+        if context["task_id"] == a["id"] and role == "worker" and not context["dependencies"]:
+            fanout_entered += 1
+            if fanout_entered == 2:
+                fanout_ready.set()
+            await fanout_ready.wait()
+
+    provider = EvidenceProvider(reject_once=True, execution_barrier=overlap_independent_workers)
     engine = Engine(store, provider, global_limit=3)
     a = store.create_task("owner", "Research two sources and combine", 2)
     b = store.create_task("owner", "Other work", 1)
@@ -349,8 +363,11 @@ async def test_cancellation_retains_known_tool_round_usage(tmp_path):
         await engine.tick()
         await asyncio.wait_for(entered.wait(), timeout=3)
         store.control(task["id"], "cancel", "owner")
+        executions = [execution for item, execution in engine.running.values() if item["task_id"] == task["id"]]
         await engine.tick()
-        await asyncio.sleep(0.05)
+        # Let the cancelled execution persist its receipt before another tick
+        # could issue a second cancellation during asynchronous graph cleanup.
+        await asyncio.wait_for(asyncio.gather(*executions, return_exceptions=True), timeout=3)
         await engine.tick()
         detail = store.detail(task["id"])
         assert detail["task"]["status"] == "cancelled"

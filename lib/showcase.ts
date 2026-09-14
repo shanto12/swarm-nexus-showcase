@@ -2,6 +2,7 @@ import capture from '../public/capture/mission.json';
 import tools from '../public/capture/tools.json';
 export const SHOWCASE = import.meta.env.VITE_SHOWCASE !== 'false';
 export const capturedMissionId = capture.task.id;
+export const capturedTitle = 'AI support assistant: launch readiness';
 export async function capturedResponse(path: string, body?: unknown): Promise<unknown> {
   if (body !== undefined) throw new Error('This public walkthrough is read-only. Live missions run in the authenticated workspace.');
   if (path === '/health') return {status:'ok',service:'captured-execution',provider_configured:false,auth_configured:false,observability:{configured:false,project:'',endpoint:''}};
