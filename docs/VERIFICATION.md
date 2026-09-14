@@ -15,7 +15,7 @@ September 14, 2026, Central Time. This is a bounded portfolio demonstration, not
 | Public captured UI | Deployed Playwright | Tabs, mission selection, brief disclosure, tool dialogs, refresh, navigation, artifact downloads and desktop/mobile layouts are tested against the public Netlify URL. |
 | Public security boundary | Source and HTTP | Captured mode reads local synthetic JSON. No live API function, owner session, credentials, or provider invocation is deployed. `/api/*` is explicitly denied. |
 | Original API security headers | HTTP | Eight header observations passed: CSP, frame denial, HSTS, nosniff, referrer policy, permissions policy and no-store API boundaries. |
-| Real owner Chrome profile | Separate manual pass | Coordinated by the main portfolio task; this agent's Playwright checks use isolated Chrome, not the owner's saved profile. No saved-password autofill claim is made here. |
+| Real owner Chrome profile | Final manual production walkthrough | All five public tabs, a saved worker output, 100,000-token resource ceiling with zero reserved/uncertain, Activity ledger, Tools open/close, refresh and visual review passed. Native Chrome downloaded `launch-plan.md` (2,504 bytes); its SHA-256 matched the runtime artifact. This verifies the captured UI; featured enterprise execution was verified separately through authenticated API/backend. No saved-password autofill claim is made. |
 
 ## Known operational limits
 
@@ -33,3 +33,5 @@ The orbit image is 1672 × 941. Final landscape screenshots are captured at 1440
 - Five completed assignments; 49,706 reported tokens; zero uncertain usage; backend estimated cost $0.012131136 (not a provider invoice).
 - `launch-plan.md`: 2,504 bytes; SHA-256 `a9ee567d6c2edfabc2d26788eb6528311d9f61ad44f22db7a01433b95a55d63f`.
 - Proposed launch checks are planning output. They are not evidence that an actual support system passed those checks.
+
+The public UI was deployed from source commit `031ca0658bbb8739d842ae551f15beceb4b32887` as Netlify deployment `6aa81264cacc31086fdcc7c0`. The subsequent documentation-only commit records the completed real Chrome manual pass; app bytes are unchanged.
