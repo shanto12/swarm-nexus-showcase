@@ -1,0 +1,28 @@
+[build]
+  command = "npm run build"
+  publish = "dist-netlify"
+
+[functions]
+  node_bundler = "esbuild"
+[[redirects]]
+  from = "/favicon.ico"
+  to = "/favicon.svg"
+  status = 301
+[[redirects]]
+  from = "/api/*"
+  to = "/404.html"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "no-referrer"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; form-action 'self'; base-uri 'none'; object-src 'none'"

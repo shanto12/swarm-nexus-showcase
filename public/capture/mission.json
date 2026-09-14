@@ -1,0 +1,958 @@
+{
+  "task": {
+    "id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+    "prompt": "Portfolio verification: calculate 17 × 19 and 23 × 29 as two independent assignments. Combine their results in a concise report named capacity-summary.md, showing both calculations and the total. Independently verify the final arithmetic. No web access is needed.",
+    "status": "completed",
+    "agent_limit": 2,
+    "max_attempts": 3,
+    "token_budget": 100000,
+    "tokens_used": 54685,
+    "estimated_cost_usd": 0.014511160000000002,
+    "created_at": "2026-09-14T14:39:15.328119+00:00",
+    "updated_at": "2026-09-14T14:41:41.664458+00:00",
+    "result": "# Capacity Summary\n\n## Calculation 1: 17 × 19\n\n17 × 19 = 323\n\n## Calculation 2: 23 × 29\n\n23 × 29 = 667\n\n## Total\n\n323 + 667 = 990\n\n## Note\n\nThe two products (17 × 19 = 323 and 23 × 29 = 667) came from two independent assignments. This report combines their results and states the total.\n\n---\n\n### Independent verification (verifier)\n\n- 17 × 19 = 323 — recomputed directly (17*19 = 323); consistent with the distributive method 17×20 − 17 = 340 − 17 = 323 and with exact division checks 323/17 = 19, 323/19 = 17.\n- 23 × 29 = 667 — recomputed directly (23*29 = 667); consistent with 23×30 − 23 = 690 − 23 = 667 and with exact division checks 667/23 = 29, 667/29 = 23.\n- Total: 323 + 667 = 990 — recomputed both as a sum and as a single expression (17*19 + 23*29 = 990); inverse checks 990 − 667 = 323 and 990 − 323 = 667 both hold.\n- Provenance: the two products were produced by separate worker assignments (78a63b2459be470189639b61fcda82d9 → 323; ab868ca45c6e47eaa919c01b24cffb57 → 667), each with its own evidence artifact (17x19-evidence.md, compute-23x29-evidence.md), and the report artifact capacity-summary.md (id 62d3937a6d659861b6cc11a611f2f6be) contains both calculations and the total with no extraneous claims. Ledger execution_evidence confirms calculate/save_artifact/send_handoff tool use by each worker and the writer, with handoffs routed to the writer and then to this verifier. No web access was used or needed.",
+    "blocker": null,
+    "repair_round": 0,
+    "tokens_uncertain": 0,
+    "active_agents": 0,
+    "tokens_reserved": 0,
+    "resources": {
+      "mode": "manual",
+      "agent_ceiling": 2,
+      "token_ceiling": 100000,
+      "assessment": {
+        "policy_version": "nexus-1",
+        "complexity": "focused",
+        "score": 1,
+        "recommended_agents": 2,
+        "initial_token_allocation": 40000,
+        "agent_ceiling": 2,
+        "token_ceiling": 60000,
+        "basis": "prompt_estimate",
+        "reasons": [
+          "Multiple deliverables or stages"
+        ],
+        "explanation": "Initial estimate. The saved plan and ready assignments determine actual concurrency; tokens grow only within your ceiling."
+      }
+    }
+  },
+  "items": [
+    {
+      "id": "8b049729172a4b48aa466a9c73fb64d9",
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "title": "Plan the assignment",
+      "role": "planner",
+      "status": "completed",
+      "dependencies": [],
+      "assigned_agent": "planner-8b0497",
+      "attempt": 1,
+      "output": "{\"items\":[{\"id\":\"calc-a\",\"title\":\"Compute 17 × 19\",\"prompt\":\"Compute 17 × 19 exactly using arithmetic (e.g., 17 × 19 = 17 × 20 − 17 = 340 − 17 = 323). Report the product, the method used, and a self-check (e.g., 323 ÷ 17 = 19). No web access is needed or available; do not attempt external lookups. Deliverable: a short evidence note stating the product 323 with the arithmetic steps.\"},{\"id\":\"calc-b\",\"title\":\"Compute 23 × 29\",\"prompt\":\"Compute 23 × 29 exactly using arithmetic (e.g., 23 × 29 = 23 × 30 − 23 = 690 − 23 = 667). Report the product, the method used, and a self-check (e.g., 667 ÷ 23 = 29). No web access is needed or available; do not attempt external lookups. Deliverable: a short evidence note stating the product 667 with the arithmetic steps.\"},{\"id\":\"synthesis\",\"title\":\"Write capacity-summary.md\",\"prompt\":\"Combine the two independent results into a concise report artifact named capacity-summary.md. Show both calculations explicitly (17 × 19 = 323 and 23 × 29 = 667), then the total: 323 + 667 = 990. Include a short note that the two products came from independent assignments. Do not add any other claims or external references. Deliverable: capacity-summary.md containing both calculations and the total 990.\"}],\"constraints\":[\"No web access is needed or available; all work is pure arithmetic and file authoring.\",\"Pool cap is 2 simultaneous agents; calc-a and calc-b can run in parallel, synthesis depends on both.\",\"The framework adds its own independent verifier after these workers; no separate verification worker is included here.\",\"If artifact staging is unavailable, report that as a precise blocker rather than claiming the file was written.\"]}",
+      "error": null,
+      "created_at": "2026-09-14T14:39:15.328295+00:00"
+    },
+    {
+      "id": "78a63b2459be470189639b61fcda82d9",
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "title": "Compute 17 × 19",
+      "role": "worker",
+      "status": "completed",
+      "dependencies": [],
+      "assigned_agent": "worker-78a63b",
+      "attempt": 1,
+      "output": "## Result\n\n**17 × 19 = 323**\n\n**Method:** distributive / round-number adjustment\n17 × 19 = 17 × (20 − 1) = 17 × 20 − 17 = 340 − 17 = 323\n\n**Self-check:** 323 ÷ 17 = 19 exactly, and 323 ÷ 19 = 17 exactly — both factors recovered, so the product is confirmed.\n\n### Observable evidence (local arithmetic tool)\n| Expression | Result |\n|---|---|\n| `17 * 19` | 323 |\n| `17 * 20 - 17` | 323 |\n| `323 / 17` | 19.0 |\n| `323 / 19` | 17.0 |\n| `17 * 19 + 23 * 29` | 990 |\n\n### Deliverables staged\n- Artifact `17x19-evidence.md` (sha256 `fed3bcef…b90de5`) — short evidence note with product, method, steps, self-check, and scope limits.\n- Handoff to item `395a2de93df14c15ac6ffccdd94aeb34` (Write capacity-summary.md) supplying 323 for the 17 × 19 term, plus the combined cross-check total 990.\n\n### Notes / limitations\n- No web access was used or needed; all values come from the local arithmetic tool.\n- This assignment covers only 17 × 19. The 23 × 29 term (667) belongs to sibling assignment `ab868ca45c6e47eaa919c01b24cffb57`; I cited it only for the combined total and did not independently compute it here.\n- No blockers.",
+      "error": null,
+      "created_at": "2026-09-14T14:39:18.235733+00:00"
+    },
+    {
+      "id": "ab868ca45c6e47eaa919c01b24cffb57",
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "title": "Compute 23 × 29",
+      "role": "worker",
+      "status": "completed",
+      "dependencies": [],
+      "assigned_agent": "worker-ab868c",
+      "attempt": 1,
+      "output": "## Result: 23 × 29 = 667\n\n**Method (distributive / round-number shortcut):**\n23 × 29 = 23 × (30 − 1) = 23 × 30 − 23 = 690 − 23 = **667**\n\n**Self-check (tool-verified):**\n- 667 ÷ 23 = 29.0 exactly\n- 667 ÷ 29 = 23.0 exactly\n- Residual: 23 × 29 − 667 = 0\n\nBoth quotients reproduce the original factors, confirming the product.\n\n**Evidence (arithmetic tool outputs):**\n| Expression | Result |\n|---|---|\n| 23 * 29 | 667 |\n| 23 * 30 - 23 | 667 |\n| 667 / 23 | 29.0 |\n| 667 / 29 | 23.0 |\n| 23 * 29 - 667 | 0 |\n\n**Artifacts / handoffs:**\n- Staged artifact `compute-23x29-evidence.md` (sha256 `67ac2ff6…23c8`).\n- Handoff sent to the `capacity-summary.md` writer (item `395a2de93df14c15ac6ffccdd94aeb34`) with the value 667 and the note that the sibling assignment's 17 × 19 = 323 yields a combined total of 990.\n\n**Blocker:** none. No web access was used or needed; all results come from the arithmetic tool.",
+      "error": null,
+      "created_at": "2026-09-14T14:39:18.235763+00:00"
+    },
+    {
+      "id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "title": "Write capacity-summary.md",
+      "role": "worker",
+      "status": "completed",
+      "dependencies": [],
+      "assigned_agent": "worker-395a2d",
+      "attempt": 1,
+      "output": "## Summary\n\nDeliverable **capacity-summary.md** is staged (sha256 `2ce3f8b5cfd28453e61a09630f0a6fcc912cb1912f65e5649e3da68cac631a8e`).\n\n**Contents:**\n- Calculation 1: 17 × 19 = 323\n- Calculation 2: 23 × 29 = 667\n- Total: 323 + 667 = 990\n- Note that the two products came from independent assignments\n\nNo other claims or external references were added, per the assignment.\n\n**Observable evidence (arithmetic tool):**\n| Check | Expression | Result |\n|---|---|---|\n| Product 1 | 17 × 19 | 323 |\n| Product 2 | 23 × 29 | 667 |\n| Total | 323 + 667 | 990 |\n| Cross-check | 323 ÷ 17 | 19.0 |\n| Cross-check | 323 ÷ 19 | 17.0 |\n| Cross-check | 17 × 20 − 17 | 323 |\n| Cross-check | 990 − 667 | 323 |\n| Cross-check | 990 − 323 | 667 |\n\n**Sources:** 23 × 29 = 667 corroborated by dependency artifact `compute-23x29-evidence.md` (item `ab868ca45c6e47eaa919c01b24cffb57`); 17 × 19 = 323 confirmed directly via the arithmetic tool. Handoff sent to the verifier (item `b5b395430fd744f7b371ca40dbfa49f6`).\n\n**Blocker:** None. No web access was needed or used.",
+      "error": null,
+      "created_at": "2026-09-14T14:39:18.235779+00:00"
+    },
+    {
+      "id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "title": "Independently verify deliverables",
+      "role": "verifier",
+      "status": "completed",
+      "dependencies": [
+        "78a63b2459be470189639b61fcda82d9",
+        "ab868ca45c6e47eaa919c01b24cffb57",
+        "395a2de93df14c15ac6ffccdd94aeb34"
+      ],
+      "assigned_agent": "verifier-b5b395",
+      "attempt": 2,
+      "output": "{\"accepted\":true,\"result\":\"# Capacity Summary\\n\\n## Calculation 1: 17 × 19\\n\\n17 × 19 = 323\\n\\n## Calculation 2: 23 × 29\\n\\n23 × 29 = 667\\n\\n## Total\\n\\n323 + 667 = 990\\n\\n## Note\\n\\nThe two products (17 × 19 = 323 and 23 × 29 = 667) came from two independent assignments. This report combines their results and states the total.\\n\\n---\\n\\n### Independent verification (verifier)\\n\\n- 17 × 19 = 323 — recomputed directly (17*19 = 323); consistent with the distributive method 17×20 − 17 = 340 − 17 = 323 and with exact division checks 323/17 = 19, 323/19 = 17.\\n- 23 × 29 = 667 — recomputed directly (23*29 = 667); consistent with 23×30 − 23 = 690 − 23 = 667 and with exact division checks 667/23 = 29, 667/29 = 23.\\n- Total: 323 + 667 = 990 — recomputed both as a sum and as a single expression (17*19 + 23*29 = 990); inverse checks 990 − 667 = 323 and 990 − 323 = 667 both hold.\\n- Provenance: the two products were produced by separate worker assignments (78a63b2459be470189639b61fcda82d9 → 323; ab868ca45c6e47eaa919c01b24cffb57 → 667), each with its own evidence artifact (17x19-evidence.md, compute-23x29-evidence.md), and the report artifact capacity-summary.md (id 62d3937a6d659861b6cc11a611f2f6be) contains both calculations and the total with no extraneous claims. Ledger execution_evidence confirms calculate/save_artifact/send_handoff tool use by each worker and the writer, with handoffs routed to the writer and then to this verifier. No web access was used or needed.\",\"issues\":[]}",
+      "error": null,
+      "created_at": "2026-09-14T14:39:18.235801+00:00"
+    }
+  ],
+  "events": [
+    {
+      "id": 773,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": null,
+      "agent": "coordinator",
+      "kind": "created",
+      "message": "Task queued. Capacity 2 includes coordinator, workers, and verifier.",
+      "created_at": "2026-09-14T14:39:15.328367+00:00"
+    },
+    {
+      "id": 774,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": null,
+      "agent": "coordinator",
+      "kind": "resource_assessment",
+      "message": "Manual allocation: focused task; 60,000 tokens allocated, ceiling 60,000; agent ceiling 2.",
+      "created_at": "2026-09-14T14:39:15.328420+00:00"
+    },
+    {
+      "id": 775,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "8b049729172a4b48aa466a9c73fb64d9",
+      "agent": "planner-8b0497",
+      "kind": "assigned",
+      "message": "Plan the assignment · attempt 1",
+      "created_at": "2026-09-14T14:39:15.445192+00:00"
+    },
+    {
+      "id": 776,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "8b049729172a4b48aa466a9c73fb64d9",
+      "agent": "planner-8b0497",
+      "kind": "completed",
+      "message": "Plan the assignment completed; output saved.",
+      "created_at": "2026-09-14T14:39:18.235663+00:00"
+    },
+    {
+      "id": 777,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": null,
+      "agent": "coordinator",
+      "kind": "plan",
+      "message": "Saved dependency plan with 3 worker assignments and an independent verifier.",
+      "created_at": "2026-09-14T14:39:18.235814+00:00"
+    },
+    {
+      "id": 778,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "78a63b2459be470189639b61fcda82d9",
+      "agent": "worker-78a63b",
+      "kind": "assigned",
+      "message": "Compute 17 × 19 · attempt 1",
+      "created_at": "2026-09-14T14:39:18.472698+00:00"
+    },
+    {
+      "id": 779,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
+      "agent": "worker-ab868c",
+      "kind": "assigned",
+      "message": "Compute 23 × 29 · attempt 1",
+      "created_at": "2026-09-14T14:39:18.476689+00:00"
+    },
+    {
+      "id": 780,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 21865 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:39:23.405823+00:00"
+    },
+    {
+      "id": 781,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 22030 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:39:23.411085+00:00"
+    },
+    {
+      "id": 782,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "78a63b2459be470189639b61fcda82d9",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 22266 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:39:24.054224+00:00"
+    },
+    {
+      "id": 783,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "78a63b2459be470189639b61fcda82d9",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 22431 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:39:24.066781+00:00"
+    },
+    {
+      "id": 784,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "worker-ab868c",
+      "kind": "handoff",
+      "message": "23 × 29 = 667 (verified). Method: 23 × 30 − 23 = 690 − 23 = 667. Self-check: 667 ÷ 23 = 29 and 667 ÷ 29 = 23 exactly; residual 23×29 − 667 = 0. Evidence artifact: compute-23x29-evidence.md. Sibling 17 × 19 = 323 (from the other worker) → combined total 667 + 323 = 990.",
+      "created_at": "2026-09-14T14:39:25.431339+00:00"
+    },
+    {
+      "id": 785,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
+      "agent": "worker-ab868c",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:39:25.431354+00:00"
+    },
+    {
+      "id": 786,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
+      "agent": "worker-ab868c",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:39:25.431363+00:00"
+    },
+    {
+      "id": 787,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
+      "agent": "worker-ab868c",
+      "kind": "tool",
+      "message": "Executed read_context.",
+      "created_at": "2026-09-14T14:39:25.431371+00:00"
+    },
+    {
+      "id": 788,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
+      "agent": "worker-ab868c",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:39:25.431378+00:00"
+    },
+    {
+      "id": 789,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
+      "agent": "worker-ab868c",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:39:25.431385+00:00"
+    },
+    {
+      "id": 790,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
+      "agent": "worker-ab868c",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:39:25.431393+00:00"
+    },
+    {
+      "id": 791,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
+      "agent": "worker-ab868c",
+      "kind": "tool",
+      "message": "Executed save_artifact.",
+      "created_at": "2026-09-14T14:39:25.431400+00:00"
+    },
+    {
+      "id": 792,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
+      "agent": "worker-ab868c",
+      "kind": "tool",
+      "message": "Executed send_handoff.",
+      "created_at": "2026-09-14T14:39:25.431406+00:00"
+    },
+    {
+      "id": 793,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "ab868ca45c6e47eaa919c01b24cffb57",
+      "agent": "worker-ab868c",
+      "kind": "completed",
+      "message": "Compute 23 × 29 completed; output saved.",
+      "created_at": "2026-09-14T14:39:25.431414+00:00"
+    },
+    {
+      "id": 794,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "worker-395a2d",
+      "kind": "assigned",
+      "message": "Write capacity-summary.md · attempt 1",
+      "created_at": "2026-09-14T14:39:25.590220+00:00"
+    },
+    {
+      "id": 795,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "worker-78a63b",
+      "kind": "handoff",
+      "message": "17 × 19 = 323 (verified). Method: 17 × 20 − 17 = 340 − 17 = 323. Self-check: 323 ÷ 17 = 19 and 323 ÷ 19 = 17, both exact. Combined cross-check: 17*19 + 23*29 = 990 (single-expression tool result). Use 323 for the 17 × 19 term in capacity-summary.md; the 23 × 29 term (667) comes from sibling assignment ab868ca45c6e47eaa919c01b24cffb57. Evidence artifact: 17x19-evidence.md.",
+      "created_at": "2026-09-14T14:39:26.487070+00:00"
+    },
+    {
+      "id": 796,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "78a63b2459be470189639b61fcda82d9",
+      "agent": "worker-78a63b",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:39:26.487084+00:00"
+    },
+    {
+      "id": 797,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "78a63b2459be470189639b61fcda82d9",
+      "agent": "worker-78a63b",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:39:26.487118+00:00"
+    },
+    {
+      "id": 798,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "78a63b2459be470189639b61fcda82d9",
+      "agent": "worker-78a63b",
+      "kind": "tool",
+      "message": "Executed read_context.",
+      "created_at": "2026-09-14T14:39:26.487133+00:00"
+    },
+    {
+      "id": 799,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "78a63b2459be470189639b61fcda82d9",
+      "agent": "worker-78a63b",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:39:26.487143+00:00"
+    },
+    {
+      "id": 800,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "78a63b2459be470189639b61fcda82d9",
+      "agent": "worker-78a63b",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:39:26.487150+00:00"
+    },
+    {
+      "id": 801,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "78a63b2459be470189639b61fcda82d9",
+      "agent": "worker-78a63b",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:39:26.487157+00:00"
+    },
+    {
+      "id": 802,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "78a63b2459be470189639b61fcda82d9",
+      "agent": "worker-78a63b",
+      "kind": "tool",
+      "message": "Executed save_artifact.",
+      "created_at": "2026-09-14T14:39:26.487164+00:00"
+    },
+    {
+      "id": 803,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "78a63b2459be470189639b61fcda82d9",
+      "agent": "worker-78a63b",
+      "kind": "tool",
+      "message": "Executed send_handoff.",
+      "created_at": "2026-09-14T14:39:26.487171+00:00"
+    },
+    {
+      "id": 804,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "78a63b2459be470189639b61fcda82d9",
+      "agent": "worker-78a63b",
+      "kind": "completed",
+      "message": "Compute 17 × 19 completed; output saved.",
+      "created_at": "2026-09-14T14:39:26.487179+00:00"
+    },
+    {
+      "id": 805,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 20088 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:39:28.284860+00:00"
+    },
+    {
+      "id": 806,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 20219 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:39:28.290717+00:00"
+    },
+    {
+      "id": 807,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 20352 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:39:28.296181+00:00"
+    },
+    {
+      "id": 808,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 24732 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:39:29.852354+00:00"
+    },
+    {
+      "id": 809,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 24865 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:39:29.858319+00:00"
+    },
+    {
+      "id": 810,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 25001 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:39:29.863641+00:00"
+    },
+    {
+      "id": 811,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 25134 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:39:29.869043+00:00"
+    },
+    {
+      "id": 812,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 25267 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:39:29.874446+00:00"
+    },
+    {
+      "id": 813,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 29711 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:39:31.193611+00:00"
+    },
+    {
+      "id": 814,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 34551 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:39:33.144632+00:00"
+    },
+    {
+      "id": 815,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "worker-395a2d",
+      "kind": "handoff",
+      "message": "capacity-summary.md staged (sha256 2ce3f8b5cfd28453e61a09630f0a6fcc912cb1912f65e5649e3da68cac631a8e). Contents: 17 × 19 = 323; 23 × 29 = 667; total 323 + 667 = 990; note that the two products came from independent assignments. No other claims or external references. Arithmetic tool-verified: 17*19=323, 23*29=667, 323+667=990; cross-checks 323/17=19, 323/19=17, 990-667=323, 990-323=667. Source for 23 × 29: artifact compute-23x29-evidence.md (667).",
+      "created_at": "2026-09-14T14:39:35.370194+00:00"
+    },
+    {
+      "id": 816,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "worker-395a2d",
+      "kind": "tool",
+      "message": "Executed read_context.",
+      "created_at": "2026-09-14T14:39:35.370208+00:00"
+    },
+    {
+      "id": 817,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "worker-395a2d",
+      "kind": "tool",
+      "message": "Executed read_artifact.",
+      "created_at": "2026-09-14T14:39:35.370216+00:00"
+    },
+    {
+      "id": 818,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "worker-395a2d",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:39:35.370223+00:00"
+    },
+    {
+      "id": 819,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "worker-395a2d",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:39:35.370232+00:00"
+    },
+    {
+      "id": 820,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "worker-395a2d",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:39:35.370239+00:00"
+    },
+    {
+      "id": 821,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "worker-395a2d",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:39:35.370246+00:00"
+    },
+    {
+      "id": 822,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "worker-395a2d",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:39:35.370253+00:00"
+    },
+    {
+      "id": 823,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "worker-395a2d",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:39:35.370260+00:00"
+    },
+    {
+      "id": 824,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "worker-395a2d",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:39:35.370269+00:00"
+    },
+    {
+      "id": 825,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "worker-395a2d",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:39:35.370276+00:00"
+    },
+    {
+      "id": 826,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "worker-395a2d",
+      "kind": "tool",
+      "message": "Executed save_artifact.",
+      "created_at": "2026-09-14T14:39:35.370283+00:00"
+    },
+    {
+      "id": 827,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "worker-395a2d",
+      "kind": "tool",
+      "message": "Executed send_handoff.",
+      "created_at": "2026-09-14T14:39:35.370289+00:00"
+    },
+    {
+      "id": 828,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "agent": "worker-395a2d",
+      "kind": "completed",
+      "message": "Write capacity-summary.md completed; output saved.",
+      "created_at": "2026-09-14T14:39:35.370296+00:00"
+    },
+    {
+      "id": 829,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "verifier-b5b395",
+      "kind": "assigned",
+      "message": "Independently verify deliverables · attempt 1",
+      "created_at": "2026-09-14T14:39:35.677498+00:00"
+    },
+    {
+      "id": 830,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 15814 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:39:35.728618+00:00"
+    },
+    {
+      "id": 831,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 18759 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:39:37.955423+00:00"
+    },
+    {
+      "id": 832,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "verifier-b5b395",
+      "kind": "failed",
+      "message": "Remaining task token budget cannot safely cover a useful tool evidence chunk.",
+      "created_at": "2026-09-14T14:39:37.974633+00:00"
+    },
+    {
+      "id": 833,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": null,
+      "agent": "coordinator",
+      "kind": "budget_exhausted",
+      "message": "Independently verify deliverables: Remaining task token budget cannot safely cover a useful tool evidence chunk.",
+      "created_at": "2026-09-14T14:39:37.974812+00:00"
+    },
+    {
+      "id": 834,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": null,
+      "agent": "owner",
+      "kind": "budget_increased",
+      "message": "Owner increased token budget from 60000 to 100000; resumed 1 unfinished assignments. Completed work and usage retained.",
+      "created_at": "2026-09-14T14:41:36.373685+00:00"
+    },
+    {
+      "id": 835,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "verifier-b5b395",
+      "kind": "assigned",
+      "message": "Independently verify deliverables · attempt 2",
+      "created_at": "2026-09-14T14:41:36.774917+00:00"
+    },
+    {
+      "id": 836,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": null,
+      "agent": "coordinator",
+      "kind": "pause",
+      "message": "Pause requested; in-flight assignments may finish, no new assignments start.",
+      "created_at": "2026-09-14T14:41:37.429254+00:00"
+    },
+    {
+      "id": 837,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 26111 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:41:38.805346+00:00"
+    },
+    {
+      "id": 838,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 27429 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:41:38.810988+00:00"
+    },
+    {
+      "id": 839,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 28554 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:41:38.816886+00:00"
+    },
+    {
+      "id": 840,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 28715 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:41:38.823189+00:00"
+    },
+    {
+      "id": 841,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 28844 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:41:38.828660+00:00"
+    },
+    {
+      "id": 842,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 28975 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:41:38.834553+00:00"
+    },
+    {
+      "id": 843,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 29110 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:41:38.840146+00:00"
+    },
+    {
+      "id": 844,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 29241 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:41:38.845762+00:00"
+    },
+    {
+      "id": 845,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "coordinator",
+      "kind": "budget_allocation",
+      "message": "Extended assignment allowance to 29372 tokens using unreserved task budget.",
+      "created_at": "2026-09-14T14:41:38.851084+00:00"
+    },
+    {
+      "id": 846,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": null,
+      "agent": "coordinator",
+      "kind": "resume",
+      "message": "Task resume requested.",
+      "created_at": "2026-09-14T14:41:39.533142+00:00"
+    },
+    {
+      "id": 847,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "verifier-b5b395",
+      "kind": "tool",
+      "message": "Executed read_artifact.",
+      "created_at": "2026-09-14T14:41:41.664040+00:00"
+    },
+    {
+      "id": 848,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "verifier-b5b395",
+      "kind": "tool",
+      "message": "Executed read_artifact.",
+      "created_at": "2026-09-14T14:41:41.664062+00:00"
+    },
+    {
+      "id": 849,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "verifier-b5b395",
+      "kind": "tool",
+      "message": "Executed read_artifact.",
+      "created_at": "2026-09-14T14:41:41.664214+00:00"
+    },
+    {
+      "id": 850,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "verifier-b5b395",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:41:41.664230+00:00"
+    },
+    {
+      "id": 851,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "verifier-b5b395",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:41:41.664241+00:00"
+    },
+    {
+      "id": 852,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "verifier-b5b395",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:41:41.664249+00:00"
+    },
+    {
+      "id": 853,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "verifier-b5b395",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:41:41.664256+00:00"
+    },
+    {
+      "id": 854,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "verifier-b5b395",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:41:41.664263+00:00"
+    },
+    {
+      "id": 855,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "verifier-b5b395",
+      "kind": "tool",
+      "message": "Executed calculate.",
+      "created_at": "2026-09-14T14:41:41.664270+00:00"
+    },
+    {
+      "id": 856,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "verifier-b5b395",
+      "kind": "completed",
+      "message": "Independently verify deliverables completed; output saved.",
+      "created_at": "2026-09-14T14:41:41.664278+00:00"
+    },
+    {
+      "id": 857,
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "agent": "verifier-b5b395",
+      "kind": "verified",
+      "message": "Independent verification accepted the saved deliverable.",
+      "created_at": "2026-09-14T14:41:41.664448+00:00"
+    }
+  ],
+  "handoffs": [
+    {
+      "id": 17,
+      "source_item_id": "ab868ca45c6e47eaa919c01b24cffb57",
+      "target_item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "message": "23 × 29 = 667 (verified). Method: 23 × 30 − 23 = 690 − 23 = 667. Self-check: 667 ÷ 23 = 29 and 667 ÷ 29 = 23 exactly; residual 23×29 − 667 = 0. Evidence artifact: compute-23x29-evidence.md. Sibling 17 × 19 = 323 (from the other worker) → combined total 667 + 323 = 990.",
+      "created_at": "2026-09-14T14:39:25.431308+00:00"
+    },
+    {
+      "id": 18,
+      "source_item_id": "78a63b2459be470189639b61fcda82d9",
+      "target_item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "message": "17 × 19 = 323 (verified). Method: 17 × 20 − 17 = 340 − 17 = 323. Self-check: 323 ÷ 17 = 19 and 323 ÷ 19 = 17, both exact. Combined cross-check: 17*19 + 23*29 = 990 (single-expression tool result). Use 323 for the 17 × 19 term in capacity-summary.md; the 23 × 29 term (667) comes from sibling assignment ab868ca45c6e47eaa919c01b24cffb57. Evidence artifact: 17x19-evidence.md.",
+      "created_at": "2026-09-14T14:39:26.487054+00:00"
+    },
+    {
+      "id": 19,
+      "source_item_id": "395a2de93df14c15ac6ffccdd94aeb34",
+      "target_item_id": "b5b395430fd744f7b371ca40dbfa49f6",
+      "message": "capacity-summary.md staged (sha256 2ce3f8b5cfd28453e61a09630f0a6fcc912cb1912f65e5649e3da68cac631a8e). Contents: 17 × 19 = 323; 23 × 29 = 667; total 323 + 667 = 990; note that the two products came from independent assignments. No other claims or external references. Arithmetic tool-verified: 17*19=323, 23*29=667, 323+667=990; cross-checks 323/17=19, 323/19=17, 990-667=323, 990-323=667. Source for 23 × 29: artifact compute-23x29-evidence.md (667).",
+      "created_at": "2026-09-14T14:39:35.370177+00:00"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "76664fddb76727ab2a624774cee7409f",
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "name": "compute-23x29-evidence.md",
+      "media_type": "text/markdown",
+      "size": 843,
+      "created_at": "2026-09-14T14:39:25.431170+00:00"
+    },
+    {
+      "id": "eccee6846fb4542845d6591726091183",
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "name": "ab868ca4-work.md",
+      "media_type": "text/markdown",
+      "size": 916,
+      "created_at": "2026-09-14T14:39:25.431453+00:00"
+    },
+    {
+      "id": "21436fc9187430c6d751018559783be4",
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "name": "17x19-evidence.md",
+      "media_type": "text/markdown",
+      "size": 1039,
+      "created_at": "2026-09-14T14:39:26.487020+00:00"
+    },
+    {
+      "id": "3ea8899a359b9386475bf96d89c4b5cf",
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "name": "78a63b24-work.md",
+      "media_type": "text/markdown",
+      "size": 1136,
+      "created_at": "2026-09-14T14:39:26.487211+00:00"
+    },
+    {
+      "id": "62d3937a6d659861b6cc11a611f2f6be",
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "name": "capacity-summary.md",
+      "media_type": "text/markdown",
+      "size": 293,
+      "created_at": "2026-09-14T14:39:35.370139+00:00"
+    },
+    {
+      "id": "725039e98bdaf468b53056c69a20cbc4",
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "name": "395a2de9-work.md",
+      "media_type": "text/markdown",
+      "size": 1056,
+      "created_at": "2026-09-14T14:39:35.370323+00:00"
+    },
+    {
+      "id": "89c08c8fcb4990dfafd6140fe5d3a816",
+      "task_id": "b46b8ac4ae344cd5a2de5992bd6d9489",
+      "name": "result.md",
+      "media_type": "text/markdown",
+      "size": 1461,
+      "created_at": "2026-09-14T14:41:41.664355+00:00"
+    }
+  ]
+}

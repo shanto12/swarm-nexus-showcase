@@ -1,0 +1,26 @@
+[project]
+name = "swarm-studio"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+  "langgraph>=1.2.11,<2",
+  "langgraph-checkpoint-sqlite>=3,<4",
+  "langsmith>=0.4.25,<1",
+  "httpx>=0.28,<1",
+  "fastapi>=0.115,<1",
+  "uvicorn[standard]>=0.34,<1",
+]
+
+[dependency-groups]
+dev = ["pytest>=8,<10", "pytest-asyncio>=1,<2"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["backend/swarm"]
+
+[tool.pytest.ini_options]
+testpaths = ["backend/tests", "tests"]
+asyncio_mode = "auto"
